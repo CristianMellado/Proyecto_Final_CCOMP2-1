@@ -1,4 +1,6 @@
 # Proyecto_Final_CCOMP2-1
 
-holas 
-as
+Integrantes: 
+Marcelo Torres Acuña
+Cristian Mellado Baca
+Alexander Carpio Mamani
