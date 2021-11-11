@@ -1,6 +1,6 @@
 **Proyecto_Final_CCOMP2-1**
 
-**JUEGO:*
+**JUEGO:**
   * City Farm
 
 **INTEGRANTES:** 
