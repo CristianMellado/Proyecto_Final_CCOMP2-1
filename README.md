@@ -2,5 +2,5 @@
 
 Integrantes: 
 Marcelo Torres Acuña
-Cristian Mellado Baca
+Cristian Mellado Baca 
 Alexander Carpio Mamani
