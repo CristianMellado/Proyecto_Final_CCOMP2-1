@@ -4,8 +4,8 @@ JUEGO: City Farm
 
 INTEGRANTES: 
 
-  Marcelo Torres Acuña
+  * Marcelo Torres Acuña
   
-  Cristian Mellado Baca 
+  * Cristian Mellado Baca 
   
-  Alexander Carpio Mamani
+  * Alexander Carpio Mamani
