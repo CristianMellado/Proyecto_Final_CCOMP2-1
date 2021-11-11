@@ -1,9 +1,9 @@
-# Proyecto_Final_CCOMP2-1
+Proyecto_Final_CCOMP2-1
 
-Integrantes: 
+JUEGO: City Farm
 
-Marcelo Torres Acuña
+INTEGRANTES: 
 
-Cristian Mellado Baca 
-
-Alexander Carpio Mamani
+  Marcelo Torres Acuña
+  Cristian Mellado Baca 
+  Alexander Carpio Mamani
