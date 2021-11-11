@@ -1,8 +1,9 @@
-Proyecto_Final_CCOMP2-1
+**Proyecto_Final_CCOMP2-1**
 
-JUEGO: City Farm
+**JUEGO:*
+  * City Farm
 
-INTEGRANTES: 
+**INTEGRANTES:** 
 
   * Marcelo Torres Acuña
   
