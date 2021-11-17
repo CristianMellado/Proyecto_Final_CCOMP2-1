@@ -124,7 +124,7 @@ void DataBase::create_new_data(string world, string name){
 	}
 	else{
 		cities = new City(world, name);
-		cities->houses[0].money = 1000000.0;
+		//cities->houses[0].money = 1000000.0;
 		
 		w_a<<world<<endl;
 		w_a.close();
