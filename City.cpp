@@ -108,7 +108,7 @@ void City::more_options(){
 			if (positions[0][0]==0 || positions[1][0]==0 || positions[2][0]==0 || positions[3][0]==0 ||
 				positions[4][0]==0 || positions[5][0]==0 || positions[6][0]==0 || positions[7][0]==0){
 				string name_local;
-				int pos, h;
+				char pos, h;
 				bool ex;
 				
 				cout <<" :: Show houses ::\n\n";
@@ -131,27 +131,27 @@ void City::more_options(){
 				}
 				cout<<endl<<endl;
 				do{
-					cout<<" Select type house: ";cin>>h;
-				}while(h<1 || h >4);
+					cout<<" Select type house(1-4): ";cin>>h;
+				}while(int(h)-48<1 || int(h)-48 > 4);
 				
-				if (money>= prices[h-1][0]){
+				if (money>= prices[int(h)-49][0]){
 					fflush(stdin);
 					cout<<"\n Enter local name: ";getline(cin,name_local);
 					fflush(stdin);
 					
 					do{
 						ex = false;
-						cout<<" Enter local position: ";cin>>pos;
+						cout<<" Enter local position(1-8): ";cin>>pos;
 						for (int i=0;i<8;i++){
-							if (pos==i+1 && positions[i][0]==1) ex = true;
+							if (int(pos)-48==i+1 && positions[i][0]==1) ex = true;
 						}
-					}while(ex || pos < 1 || pos > 8);
+					}while(ex || int(pos)-48 < 1 || int(pos)-48 > 8);
 					
-					houses[pos-1] = House(h-1,positions[pos-1][1], name_local);
+					houses[int(pos)-49] = House(int(h)-49,positions[int(pos)-49][1], name_local);
 					
-					pay_money(houses[pos-1].price);
+					pay_money(houses[int(pos)-49].price);
 					
-					positions[pos-1][0] = 1;
+					positions[int(pos)-49][0] = 1;
 					
 					cout<<"\n :: Successful Purchase ::\n";
 				}

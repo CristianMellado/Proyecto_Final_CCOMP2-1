@@ -213,14 +213,14 @@ void House::change_color(){
 void House::house_info(){
 	cout <<"\n ============>>> "<<name<<endl<<endl;
 	cout <<"\t:: House ::"<<endl;
-	cout <<" Money: "<<money<<" $"<<endl;
+	cout <<" Current Money: "<<money<<" $"<<endl;
 	cout <<" Money per month: "<<1.0<<" $ - "<<pay<<" $"<<endl;
 	cout<<" Price House: "<<price<<" $"<<endl<<endl;
 	
 	cout <<"\t:: Payments ::"<<endl;
-	cout<< " Tax(impuesto): "<<tax<<"% of month"<<endl;
+	cout<< " Tax(impuesto): "<<tax*100.0<<"% of month"<<endl;
 	cout<<" Employees: "<<employees<<" $"<<endl;
-	cout<< "light and water: 10 $ - 30 $"<<endl<<endl;
+	cout<< " light and water: 10 $ - 30 $"<<endl<<endl;
 }
 
 void House::collect(){

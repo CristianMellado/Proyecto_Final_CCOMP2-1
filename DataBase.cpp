@@ -209,20 +209,24 @@ void DataBase::save_data(string data, int index){
 		read_file.close();
 		copy_file.close();
 
+		remove("database.txt");
 		copy_read.open("copy_database.txt", ios::in);
 		write_file.open("database.txt", ios::out);
-		
+
 		int i = 1;
 		while(!copy_read.eof()){
-			if (index != i)
-				getline(copy_read, info);
-			else
-				info = data;
-			write_file<<info<<endl;
+			getline(copy_read, info);
+			if (index == i){
+				write_file<<data<<endl;
+			}
+			else{
+				write_file<<info<<endl;
+			}
 			i++;
 		}
 		copy_read.close();
 		write_file.close();
+
 		remove("copy_database.txt");
 	}	
 }
