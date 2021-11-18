@@ -27,6 +27,7 @@ class City{
 		Inversion inver;
 	
 		City(string, string);
+		~City();
 		void draw_game();
 		void option_selected(char );
 		void more_options();

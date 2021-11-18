@@ -25,6 +25,7 @@ class Inversion{
 		int *correct;
 	  
 		Inversion();
+		~Inversion();
 		double activar_inversion();
 		string gen_bar(int,int);
 };

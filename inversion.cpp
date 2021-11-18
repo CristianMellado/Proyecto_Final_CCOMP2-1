@@ -50,8 +50,18 @@ Inversion::Inversion(){
 
 	int answers[n_ask] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 	
-	preguntas = ask;
-	correct = answers;
+	preguntas = new string[n_ask];
+	correct = new int[n_ask];
+	
+	for(int i=0; i<n_ask; i++){
+		preguntas[i] = ask[i];
+		correct[i] = answers[i];
+	}
+}
+
+Inversion::~Inversion(){
+	delete []preguntas;
+	delete []correct;
 }
 
 string Inversion::gen_bar(int n, int t){

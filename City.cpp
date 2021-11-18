@@ -34,6 +34,9 @@ City::City(string world="nada", string name="nada"){
 	positions[0][0] = 1;
 }
 
+City::~City(){
+}
+
 void City::load_city(string arr[]){
 	int index = 1;
 	world = arr[0];
