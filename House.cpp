@@ -17,6 +17,9 @@ int models[4][6] = {{61,61,61,124,254,124},{94,94,94,91,4,93},
 double prices[4][2] = {{10000.0,100.0}, {18000.0, 180.0}, {25000.0, 250.0},{40000.0, 400.0}};
 
 House::House(int h=0, int x=5, string name="nothing"){
+	limit = 30;
+	n = 2;
+	
 	for (int i=0;i<6;i++){
 		model[i] = models[h][i];
 	}

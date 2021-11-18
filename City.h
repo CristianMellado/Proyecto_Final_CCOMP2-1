@@ -18,10 +18,10 @@ Alumnos:
 class City{
 	public:
 		string world;
-		int limit = 8, positions[8][2], size_house=18;
-		double money=0.0;
+		int limit, positions[8][2], size_house;
+		double money;
 		House houses[8];
-		bool game = true;
+		bool game;
 		Calendar calendar;
 		MiniGames games;
 		Inversion inver;

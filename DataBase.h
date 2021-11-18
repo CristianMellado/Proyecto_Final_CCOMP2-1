@@ -15,9 +15,11 @@ Alumnos:
 
 class DataBase{
 	public:
-		int n_data = 156;
-		City *cities = nullptr;
+		int n_data;
+		City *cities;
 		FILE *file;
+		
+		DataBase();
 		void menu_start();
 		void load_data();
 		void create_new_data(string, string);

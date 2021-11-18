@@ -16,7 +16,7 @@ using namespace std;
 
 class House{
 	public:
-		int limit = 30, n=2, color;
+		int limit, n, color;
 		int house[30][2];
 		int model[6];
 		string name;

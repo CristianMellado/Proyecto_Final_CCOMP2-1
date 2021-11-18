@@ -13,6 +13,11 @@ Alumnos:
 #include "City.h"
 
 City::City(string world="nada", string name="nada"){
+	limit = 8;
+	size_house=18;
+	money=0.0;
+	game = true;
+	
 	this->world = world;
 	houses[0] = House(0,5,name);
 	

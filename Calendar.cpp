@@ -12,6 +12,13 @@ Alumnos:
 
 #include "Calendar.h"
 
+Calendar::Calendar(){
+	day=1;
+	year=2021; 
+	month=1;
+	interval=7;
+}
+
 bool Calendar::update_calendar(){
 	bool action = true;
 	day += interval;

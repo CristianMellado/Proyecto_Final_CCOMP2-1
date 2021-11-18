@@ -15,7 +15,8 @@ using namespace std;
 
 class Calendar{
 	public:
-		int day=1, year=2021, month=1, interval=7;
+		Calendar();
+		int day, year, month, interval;
 		bool update_calendar();
 		bool draw_calendar(double );
 		void load_calendar(string [], int);

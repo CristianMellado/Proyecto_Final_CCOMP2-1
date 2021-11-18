@@ -12,6 +12,12 @@ Alumnos:
 
 #include "DataBase.h"
 
+DataBase::DataBase(){
+	n_data = 156;
+	file = nullptr;
+	cities = nullptr;
+}
+
 void DataBase::menu_start(){
 	ifstream datos; 
 	string info, world, name;

@@ -18,8 +18,8 @@ using namespace std;
 
 class MiniGames{
 	public:
-		double entry=100.0, total=0.0, tictac_money = 200.0, snake_money=10.0, rulette_money = 200.0;
-		
+		double entry, total, tictac_money, snake_money, rulette_money;
+		MiniGames();
 		double menu_minigames();
 		double TicTacToe();
 		double Snake();

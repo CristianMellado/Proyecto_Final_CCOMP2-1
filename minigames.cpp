@@ -12,6 +12,14 @@ Alumnos:
 
 #include "minigames.h"
 
+MiniGames::MiniGames(){
+	entry=100.0;
+	total=0.0; 
+	tictac_money = 200.0;
+	snake_money=10.0;
+	rulette_money = 200.0;
+}
+
 double MiniGames::menu_minigames(){
 	char op;
 	total  = 0.0;
