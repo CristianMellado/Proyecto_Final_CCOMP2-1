@@ -237,7 +237,7 @@ void DataBase::get_data(string data, string arr[]){
     
 	int i = 0;
 	for (string element; input.getline(&element[0], 24, ';'); ) {
-        	arr[i] = &element[0];
+        arr[i] = &element[0];
 		i++;
     }
 }

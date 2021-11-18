@@ -28,7 +28,7 @@ House::House(int h=0, int x=5, string name="nothing"){
 	this->name = name;
 	color = 1;
 	
-	money = 1000.0;
+	money = 100.0;
 	price = prices[h][0];
 	pay = prices[h][1];
 	

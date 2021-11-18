@@ -1,4 +1,4 @@
-/***************************************************************
+/****************************************************************
 Proyecto final
 
 Departamento de Ciencia de la Computación
@@ -8,7 +8,7 @@ Alumnos:
  - Cristian Mellado Baca
  - Marcelo Torres Acuña
  - Alexander Carpio Mamani
-****************************************************************/
+*****************************************************************/
 
 #include <iostream>
 #include <time.h>
@@ -48,7 +48,7 @@ class Inversion{
 
 			" Quien fue uno de los creadores de google?\n 1) Larry Page\n 2) Bill gates\n 3) Steve Jobs",
 	
-			" Quien escribio la novena sinfonia de Beethoven?\n 1) Beethoven y Chopin\n 2) Solo beethoven\n 3) Amadeus Mozart",
+			" Quien escribio la novena sinfonia de Beethoven?\n 1) Beethoven y Chopin\n 2) Tu vieja\n 3) Tu viejo",
 		
 			};
 
