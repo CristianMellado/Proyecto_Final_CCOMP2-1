@@ -14,16 +14,18 @@ Alumnos:
 
 City::City(string world="nada", string name="nada"){
 	limit = 8;
-	size_house=18;
+	size_house=18; // number of variables of house
 	money=0.0;
 	game = true;
 	
 	this->world = world;
 	houses[0] = House(0,5,name);
 	
-	// for(int i=1; i<limit;i++){
-		// houses[i] = NULL;
-	// }
+	// separamos memoria para matriz positions:
+	positions = new int *[limit];
+	for (int i=0;i<limit;i++){
+		positions[i] = new int[2];  // (ocupado, posicion en la ciudad).
+	}
 	
 	int n=5;
 	for (int i=0;i<limit;i++){
@@ -35,6 +37,10 @@ City::City(string world="nada", string name="nada"){
 }
 
 City::~City(){
+	for (int i=0;i<limit;i++){
+		delete[] positions[i];  // liberamos la memoria para cada elemento del puntero de enteros.
+	}
+	delete[] positions;
 }
 
 void City::load_city(string arr[]){
@@ -116,7 +122,7 @@ void City::more_options(){
 			if (positions[0][0]==0 || positions[1][0]==0 || positions[2][0]==0 || positions[3][0]==0 ||
 				positions[4][0]==0 || positions[5][0]==0 || positions[6][0]==0 || positions[7][0]==0){
 				string name_local;
-				char pos, h;
+				char pos, h, op;
 				bool ex;
 				
 				cout <<" :: Show houses ::\n\n";
@@ -155,13 +161,16 @@ void City::more_options(){
 						}
 					}while(ex || int(pos)-48 < 1 || int(pos)-48 > 8);
 					
-					houses[int(pos)-49] = House(int(h)-49,positions[int(pos)-49][1], name_local);
+					cout<<"\n Do you sure to buy a house of "<<prices[int(h)-49][0]<<" $ ? (yes: y/ no: any key): ";
+					cin>>op;
 					
-					pay_money(houses[int(pos)-49].price);
-					
-					positions[int(pos)-49][0] = 1;
-					
-					cout<<"\n :: Successful Purchase ::\n";
+					if(op == 'y'){
+						houses[int(pos)-49] = House(int(h)-49,positions[int(pos)-49][1], name_local);
+						pay_money(houses[int(pos)-49].price);
+						positions[int(pos)-49][0] = 1;
+						cout<<"\n :: Successful Purchase ::\n";
+						getch();
+					}
 				}
 				else{
 					cout <<"\n You dont have enough money.\n";
@@ -230,6 +239,7 @@ void City::city_houses(int selected){
 			case '3':
 					cout<<"\n You price house: "<<houses[selected].price<<" $"<<endl;
 					
+					cout<<" Remind: if you sell you house, you will lose\n\t all money of this house ("<<houses[selected].money<<" $).\n\n";
 					do{
 						exist=false;
 						cout<<" Do you sell your house? (y/n): ";cin>>op;
@@ -247,8 +257,9 @@ void City::city_houses(int selected){
 						//houses[selected] = NULL;
 						op = '7';
 						cout<<"\n :: Successful Sale ::\n";
+						getch();
 					}
-					getch();break;
+					break;
 			case '4':
 					cout<<"\n You money: "<<houses[selected].money<<" $"<<endl;
 					for (int i=0;i<limit;i++){
