@@ -17,10 +17,10 @@ class DataBase{
 	public:
 		int n_data;
 		City *cities;
-		FILE *file;
 		
 		DataBase();
-		void menu_start();
+		~DataBase();
+
 		void load_data();
 		void create_new_data(string, string);
 		void save_data(string, int);

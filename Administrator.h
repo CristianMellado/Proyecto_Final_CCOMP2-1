@@ -10,10 +10,19 @@ Alumnos:
  - Alexander Carpio Mamani
 *****************************************************************/
 
-#include "Menu.cpp"
+#include "City.cpp"
+#include "DataBase.h"
 
-int main(){
-	Menu mn;
-	mn.menu_start();
-	return 0;
-}
+class Admi : public DataBase{
+	public:
+		int n_data;
+		City *cities;
+		FILE *file;
+		
+		Admi();
+		void menu_start();
+		void create_new_data(string, string);
+		void load_data();
+		void save_data(string, int);
+		void get_data(string, string[]);
+};

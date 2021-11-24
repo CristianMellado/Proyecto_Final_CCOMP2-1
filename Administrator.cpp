@@ -10,21 +10,83 @@ Alumnos:
  - Alexander Carpio Mamani
 *****************************************************************/
 
-#include "DataBase.h"
+#include "Administrator.h"
 
-DataBase::DataBase(){
+Admi::Admi(){
 	n_data = 156;
+	file = nullptr;
 	cities = nullptr;
 }
 
-DataBase::~DataBase(){
-	if (cities){ //  if cities is diff to nullptr.
-		delete cities;
+void Admi::menu_start(){
+	ifstream datos; 
+	string info, world, name;
+	char key; 
+	int one_t = 19, one_b=26, two_t = 27, two_b = 34, i=1;
+	bool one=true, two=false;
+
+	while(1){
+		//datos.open("inicio.txt", ios::in);  
+			
+		do{
+			datos.open("inicio.txt", ios::in); 
+			i = 1;
+			system("cls");
+			if(datos.fail()){
+				cout<<" Error. file didnt find of menu start."<<endl;
+				system("pause");
+				exit(1);
+			}
+			else{
+				while(!datos.eof()){
+					
+					if ((one && i >=one_t && i<=one_b) || (two && i >=two_t && i<=two_b)){
+						cout<<BLOCK_GREEN<<BLACK;
+					}
+					getline(datos, info);
+					cout<<info<<RESET<<endl;	
+					i++;
+				}
+				datos.close();
+			}
+			
+			key = 'a';
+			if (kbhit()){
+				key = getch();
+				if (key=='w'){
+					one = true;
+					two = false;
+				}
+				else if (key=='s'){
+					one = false;
+					two = true;
+				}
+			}
+			
+		}while(key!=13);
+		
+		system("cls");
+		//cities = nullptr;
+		if (one){
+			cout<<"\n =======>>> NEW WORLD =======>>>\n\n";
+			fflush(stdin);
+			cout<<" Enter world name: ";getline(cin,world);
+			fflush(stdin);
+			cout<<" Enter first local name: ";getline(cin,name);
+			fflush(stdin);
+			
+			create_new_data(world, name);
+		}
+		else{
+			cout<<"\n =======>>> WORLDS =======>>>\n\n";
+			load_data();
+		}
+		
 	}
 }
 
 
-void DataBase::create_new_data(string world, string name){
+void Admi::create_new_data(string world, string name){
 	ifstream read_file, w_r;
 	ofstream write_file, w_a;
 	
@@ -79,11 +141,10 @@ void DataBase::create_new_data(string world, string name){
 		write_file.close();
 		
 		delete cities;
-		cities = nullptr;
 	}
 }
 
-void DataBase::load_data(){
+void Admi::load_data(){
 	ifstream read_file, world_file;
 
 	read_file.open("database.txt", ios::in);
@@ -130,11 +191,10 @@ void DataBase::load_data(){
 		save_data(cities->save_city(), select);
 		
 		delete cities;
-		cities = nullptr;
 	}
 }
 
-void DataBase::save_data(string data, int index){
+void Admi::save_data(string data, int index){
 	ifstream read_file, copy_read;
 	ofstream write_file, copy_file;
 
@@ -178,7 +238,7 @@ void DataBase::save_data(string data, int index){
 }
 
 
-void DataBase::get_data(string data, string arr[]){
+void Admi::get_data(string data, string arr[]){
 	istringstream input(data);
     
 	int i = 0;

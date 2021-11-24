@@ -10,10 +10,14 @@ Alumnos:
  - Alexander Carpio Mamani
 *****************************************************************/
 
-#include "Menu.cpp"
+#include "DataBase.cpp"
 
-int main(){
-	Menu mn;
-	mn.menu_start();
-	return 0;
-}
+class Menu{
+	public:
+		DataBase *db;
+		
+		Menu();
+		~Menu();
+		
+		void menu_start();
+};
