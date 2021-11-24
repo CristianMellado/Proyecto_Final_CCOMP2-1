@@ -11,18 +11,18 @@ Alumnos:
 *****************************************************************/
 
 #include "City.cpp"
-#include <sstream>
+#include "DataBase.h"
 
-class DataBase{
+class Admi : public DataBase{
 	public:
+		int n_data;
 		City *cities;
+		FILE *file;
 		
-		DataBase();
-		~DataBase();
-
-		void load_data();
+		Admi();
+		void menu_start();
 		void create_new_data(string, string);
+		void load_data();
 		void save_data(string, int);
 		void get_data(string, string[]);
-		int data_len(string);
 };

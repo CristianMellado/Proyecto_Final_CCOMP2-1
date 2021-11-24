@@ -180,7 +180,8 @@ void House::rename_house(){
 }
 
 void House::change_color(){
-	int op;char confirm;
+	int op;
+	char confirm;
 	double total = 100.0 * double(n);
 	
 	if (total<money){
@@ -194,8 +195,8 @@ void House::change_color(){
 		cout<<" 7) Cyan \t\t 15) Light Cyan\n";
 		cout<<" 8) White \t\t 16) Light White\n\n";
 		do{
-			cout <<" option: ";cin>>color;
-		}while(color<1 || color >16);
+			cout <<" option: ";cin>>op;
+		}while(op<1 || op>16);
 		
 		do{
 			cout<<" Do you sure of change color by "<<total<<" $ ? (y/n): ";
@@ -204,6 +205,7 @@ void House::change_color(){
 			
 		if (confirm=='y'){
 			money -= total;
+			color = op;
 			cout<<"\n :: Successful Color ::\n";
 		}
 	}
