@@ -114,10 +114,15 @@ void DataBase::load_data(){
 		i = 1;
 		while(!read_file.eof()){
 			getline(read_file, info);
-			if (i==select) break;
-			i++;
+			cout<<"==> "<<i <<" : "<<info<<endl;
+			if(info.length() > 2){
+				if (i==select) break;
+				i++;
+			}
 		}
 		read_file.close();
+		
+		getch();
 		
 		int n = data_len(info); // number of all variables to load.
 		string arr[n];
@@ -169,7 +174,7 @@ void DataBase::save_data(string data, int index){
 		string info;
 		while(!read_file.eof()){
 			getline(read_file, info);
-			copy_file<<info<<endl;
+			if(info.length() > 2) copy_file<<info<<endl;
 		}
 		read_file.close();
 		copy_file.close();
