@@ -9,28 +9,35 @@ Alumnos:
  - Marcelo Torres Acuña
  - Alexander Carpio Mamani
 *****************************************************************/
+
+#pragma once
 #include <iostream>
+#include <conio.h>
 #include <time.h>
 #include "Colors.cpp"
 using namespace std;
-
+				
 class House{
 	public:
 		int limit, n, color;
-		int house[30][2];
-		int model[6];
+		int **house;
+		int *model;
 		string name;
-		double price, pay, money, money_month[4], tax, employees, light_and_water;
+		double price, pay, money, *money_month, tax, employees, light_and_water;
 		
 		House(int , int , string );
+		virtual ~House();
 		bool request_house(int,int);
 		void add_house();
 		void draw_house(int);
-		void rename_house();
+		void set_name_house(string);
+		void set_color(int );
 		void change_color();
 		void house_info();
+		double get_money();
 		void collect();
 		void pay_amount(double);
+		void receive(double);
 		void payments();
 		void load_house(string [], int);
 		string save_house();

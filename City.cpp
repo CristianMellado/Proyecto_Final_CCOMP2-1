@@ -19,21 +19,45 @@ City::City(string world="nada", string name="nada"){
 	game = true;
 	
 	this->world = world;
-	houses[0] = House(0,5,name);
+	
+	restaurant = new Restaurant(0,5,name);
+	if(name!="nada") name = "nada";
+	
+	casino = new Casino(0,5,name);
+	transactions = new Transactions(0,5,name);
+	properties = new Properties(0,5,name);
+	painters = new Painters(0,5,name);
+	constructors = new Constructors(0,5,name);
+	stonks = new Stonks(0,5,name);
+	hotel = new Hotel(0,5,name);
 	
 	// separamos memoria para matriz positions:
 	positions = new int *[limit];
 	for (int i=0;i<limit;i++){
-		positions[i] = new int[2];  // (ocupado, posicion en la ciudad).
+		positions[i] = new int[3];  // (ocupado, posicion en la ciudad, tipo de casa).
 	}
+	
+	/*
+	types of house for positions[i][2].
+	1: Restaurant
+	2: Painters
+	3: Constructors
+	4: Properties
+	5: Transactions
+	6: Stonks
+	7: Hotel
+	8: Casino
+	*/
 	
 	int n=5;
 	for (int i=0;i<limit;i++){
 		positions[i][0] = 0;
 		positions[i][1] = n;
+		positions[i][2] = 0;  // 0: none house
 		n+=5;
 	}
 	positions[0][0] = 1;
+	positions[0][2] = 1;
 }
 
 City::~City(){
@@ -41,6 +65,14 @@ City::~City(){
 		delete[] positions[i];  // liberamos la memoria para cada elemento del puntero de enteros.
 	}
 	delete[] positions;
+	
+	delete casino;
+	delete transactions;
+	delete properties;
+	delete painters;
+	delete constructors;
+	delete stonks;
+	delete hotel;
 }
 
 void City::load_city(string arr[]){
@@ -51,15 +83,64 @@ void City::load_city(string arr[]){
 		positions[i][0] = atoi(arr[index].c_str());
 		index++;
 	}
-	
-	for(int i=0; i<limit;i++){
-		houses[i].load_house(arr, index);
-		index += size_house;
+	for (int i=0;i<limit;i++){
+		positions[i][2] = atoi(arr[index].c_str());
+		index++;
 	}
-
-	game = true;
+	
+	restaurant->load_house(arr, index);
+	index += size_house;
+	
+	painters->load_house(arr, index);
+	index += size_house;
+	
+	constructors->load_house(arr, index);
+	index += size_house;
+	
+	properties->load_house(arr, index);
+	index += size_house;
+	
+	transactions->load_house(arr, index);
+	index += size_house;
+	
+	stonks->load_house(arr, index);
+	index += size_house;
+	
+	hotel->load_house(arr, index);
+	index += size_house;
+	
+	casino->load_house(arr, index);
+	index += size_house;
+	
 	calendar.load_calendar(arr, index);
 }
+
+string City::save_city(){
+	string all = "";
+	all += world + ";";
+	
+	for (int i=0; i<limit; i++){
+		all += to_string(positions[i][0]) + ";";
+	}	
+	
+	for (int i=0; i<limit; i++){
+		all += to_string(positions[i][2]) + ";";
+	}	
+	
+	all += restaurant->save_house();
+	all += painters->save_house();
+	all += constructors->save_house();
+	all += properties->save_house();
+	all += transactions->save_house();
+	all += stonks->save_house();
+	all += hotel->save_house();
+	all += casino->save_house();
+
+	all += calendar.save_calendar();
+	
+	return all;
+}
+
 
 void City::draw_game(){
 	int n;
@@ -71,20 +152,64 @@ void City::draw_game(){
 			house = false;
 			for (int k=0; k<limit; k++){
 				if (positions[k][0]==1){
-					if (houses[k].request_house(j,i)){
-						house = true;
-						n = k;
+					switch(positions[k][2]){
+						case 1: 
+								if(restaurant->request_house(j,i)){
+									house = true;
+									restaurant->draw_house(i);
+								}								
+								break;
+						case 2: 
+								if(painters->request_house(j,i)){
+									house = true;
+									painters->draw_house(i);
+								}								
+								break;
+						case 3: 
+								if(constructors->request_house(j,i)){
+									house = true;
+									constructors->draw_house(i);
+								}								
+								break;
+						case 4: 
+								if(properties->request_house(j,i)){
+									house = true;
+									properties->draw_house(i);
+								}								
+								break;
+						case 5: 
+								if(transactions->request_house(j,i)){
+									house = true;
+									transactions->draw_house(i);
+								}								
+								break;
+						case 6: 
+								if(stonks->request_house(j,i)){
+									house = true;
+									stonks->draw_house(i);
+								}								
+								break;
+						case 7: 
+								if(hotel->request_house(j,i)){
+									house = true;
+									hotel->draw_house(i);
+								}								
+								break;
+						case 8: 
+								if(casino->request_house(j,i)){
+									house = true;
+									casino->draw_house(i);
+								}								
+								break;								
 					}
 				}
-			} 
-     
-			if (house){
-				houses[n].draw_house(i);
+				if (house) break;
 			}
-			else if (i==39){
+     
+			if (i==39){
 				std::cout <<floor<<floor<<floor;
 			}
-			else{
+			else if (!house){
 				std::cout<<"   ";
 			}
 		}
@@ -94,10 +219,35 @@ void City::draw_game(){
 
 	for (int i=0;i<limit;i++){
 		if (positions[i][0]==1){
-			cout<<" "<<i+1<<") "<<houses[i].name;
+			cout<<" "<<i+1<<") ";
+				switch(positions[i][2]){
+					case 1: 
+							cout<<restaurant->name;							
+							break;
+					case 2: 
+							cout<<painters->name;						
+							break;
+					case 3: 
+							cout<<constructors->name;	
+							break;
+					case 4: 
+							cout<<properties->name;							
+							break;
+					case 5: 
+							cout<<transactions->name;								
+							break;
+					case 6: 
+							cout<<stonks->name;							
+							break;
+					case 7: 
+							cout<<hotel->name;								
+							break;
+					case 8: 
+							cout<<casino->name;								
+							break;								
+				}
 		}
 	}
-	
 	cout << " 9) More options ";
 }
 
@@ -112,7 +262,7 @@ void City::option_selected(char key){
 }
 
 void City::more_options(){
-	cout<<"\n\n 1) Tienda 2) Apuestas 3) Inversiones 4) Hacker mode 5) Save and exit";
+	cout<<"\n\n 1) Tienda 2) Info Houses 5) Save and exit";
 	char key=getch();
 	double total=0.0;
 	cout<<"\n\n";
@@ -123,8 +273,9 @@ void City::more_options(){
 				positions[4][0]==0 || positions[5][0]==0 || positions[6][0]==0 || positions[7][0]==0){
 				string name_local;
 				char pos, h, op;
-				bool ex;
+				bool ex, type_exist;
 				
+				//begin
 				cout <<" :: Show houses ::\n\n";
 				for (int i=0;i<4;i++){
 					cout<<"\t\t"<<char(models[i][0])<<char(models[i][1])<<char(models[i][2]);
@@ -137,6 +288,11 @@ void City::more_options(){
 					cout<<endl;
 				}
 				for (int i=0;i<4;i++){
+					cout<<"\t"<<description[i];
+				}
+				cout<<endl;
+				
+				for (int i=0;i<4;i++){
 					cout<<"\tprice: "<<prices[i][0]<<" $";
 				}
 				cout<<endl;
@@ -144,11 +300,46 @@ void City::more_options(){
 					cout<<"\tmax pay: "<<prices[i][1]<<" $";
 				}
 				cout<<endl<<endl;
-				do{
-					cout<<" Select type house(1-4): ";cin>>h;
-				}while(int(h)-48<1 || int(h)-48 > 4);
+			
+				// second row
+				for (int i=4;i<8;i++){
+					cout<<"\t\t"<<char(models[i][0])<<char(models[i][1])<<char(models[i][2]);
+				}
+				cout<<endl;
+				for (int j=0;j<3;j++){
+					for (int i=4;i<8;i++){
+						cout<<"\t\t"<<char(models[i][3])<<char(models[i][4])<<char(models[i][5]);
+					}
+					cout<<endl;
+				}
+				for (int i=4;i<8;i++){
+					cout<<"\t"<<description[i];
+				}
+				cout<<endl;
 				
-				if (money>= prices[int(h)-49][0]){
+				for (int i=4;i<8;i++){
+					cout<<"\tprice: "<<prices[i][0]<<" $";
+				}
+				cout<<endl;
+				for (int i=4;i<8;i++){
+					cout<<"\tmax pay: "<<prices[i][1]<<" $";
+				}
+				cout<<endl<<endl;
+				//end
+				
+				do{
+					type_exist = false;
+					do{
+						cout<<" Select type house(1-8): ";cin>>h;
+					}while(int(h)-48<1 || int(h)-48 > 8);
+					
+					for(int i=0;i<limit;i++){
+						if(positions[i][0]==1 && positions[i][2]==int(h)-48) type_exist = true;
+					}
+				}while(type_exist);
+				
+				
+				if (money >= prices[int(h)-49][0]){
 					fflush(stdin);
 					cout<<"\n Enter local name: ";getline(cin,name_local);
 					fflush(stdin);
@@ -165,9 +356,61 @@ void City::more_options(){
 					cin>>op;
 					
 					if(op == 'y'){
-						houses[int(pos)-49] = House(int(h)-49,positions[int(pos)-49][1], name_local);
-						pay_money(houses[int(pos)-49].price);
+						double total=0.0;
+						switch(h){
+							case '1':	
+										if(restaurant){
+											delete restaurant;
+										}
+										restaurant = new Restaurant(int(h)-49, positions[int(pos)-49][1], name_local);
+										break;
+							case '2':	
+										if(painters){
+											delete painters;
+										}
+										painters = new Painters(int(h)-49, positions[int(pos)-49][1], name_local);
+										break;
+							case '3':	
+										if(constructors){
+											delete constructors;
+										}
+										constructors = new Constructors(int(h)-49, positions[int(pos)-49][1], name_local);
+										break;
+							case '4':	
+										if(properties){
+											delete properties;
+										}
+										properties = new Properties(int(h)-49, positions[int(pos)-49][1], name_local);
+										break;
+							case '5':	
+										if(transactions){
+											delete transactions;
+										}
+										transactions = new Transactions(int(h)-49, positions[int(pos)-49][1], name_local);
+										break;
+							case '6':	
+										if(stonks){
+											delete stonks;
+										}
+										stonks = new Stonks(int(h)-49, positions[int(pos)-49][1], name_local);
+										break;
+							case '7':	
+										if(hotel){
+											delete hotel;
+										}
+										hotel = new Hotel(int(h)-49, positions[int(pos)-49][1], name_local);
+										break;
+							case '8':	
+										if(casino){
+											delete casino;
+										}		
+										casino = new Casino(int(h)-49, positions[int(pos)-49][1], name_local);
+										break;										
+						}
+						
+						pay_money(total);
 						positions[int(pos)-49][0] = 1;
+						positions[int(pos)-49][2] = int(h)-48;
 						cout<<"\n :: Successful Purchase ::\n";
 						getch();
 					}
@@ -179,34 +422,12 @@ void City::more_options(){
 			}
 			break;
 		case '2':
-					total = games.menu_minigames();
-					if (total<0.0){
-						pay_money(-1.0*total);
-					}
-					else{
-						receive_money(total);
-					}
-					break;
-		case '3':
-					total = inver.activar_inversion();
-					if (total<0.0){
-						pay_money(-1.0*total);
-					}
-					else{
-						receive_money(total);
+					cout <<"\n\n ===============>>> Houses Information:\n\n";
+					for(int i=0; i<limit; i++){
+						cout<<description[i]<<":"<<endl;
+						cout<<"\t"<<char(4)<<description_text[i]<<endl<<endl;
 					}
 					getch();
-					break;
-		case '4':
-					total = games.hacker_mode();
-					if (total<0.0){
-						pay_money(-1.0*total);
-					}
-					else{
-						receive_money(total);
-					}
-					getch();
-					system("color 0F");
 					break;
 		case '5': game=false; break;
 		default : break;
@@ -217,99 +438,64 @@ void City::city_houses(int selected){
 	char op;
 	double dinero;
 	bool exist;
-	do{
-		cout<<"\n\n ===> "<<houses[selected].name<<endl;
-		cout<<" 1) Informacion acerca de la casa"<<endl;
-		cout<<" 2) Agregar un piso"<<endl;
-		cout<<" 3) Vender la casa"<<endl;
-		cout<<" 4) Transferir dinero hacia otra casa"<<endl;
-		cout<<" 5) Renombrar casa"<<endl;
-		cout<<" 6) Change color"<<endl;
-		cout<<" 7) Exit "<<endl;
-		cout<<" opcion: ";cin>>op;
-		cout<<endl;
-		switch(op){
-			case '1': 	houses[selected].house_info();
-						getch();break;
-
-			case '2': 
-						houses[selected].add_house();
-						getch();
-						break;
-			case '3':
-					cout<<"\n You price house: "<<houses[selected].price<<" $"<<endl;
-					
-					cout<<" Remind: if you sell you house, you will lose\n\t all money of this house ("<<houses[selected].money<<" $).\n\n";
-					do{
-						exist=false;
-						cout<<" Do you sell your house? (y/n): ";cin>>op;
-						for (int i=0;i<limit;i++){
-							if (positions[i][0]==0 && int(op)-49==i){
-								exist = true;
-							}
-						}						
-					}while(op!='y' && op!='n');
-					
-					if (op=='y'){
-						positions[selected][0] = 0;
-						receive_money(houses[selected].price);
-		
-						//houses[selected] = NULL;
-						op = '7';
-						cout<<"\n :: Successful Sale ::\n";
-						getch();
-					}
-					break;
-			case '4':
-					cout<<"\n You money: "<<houses[selected].money<<" $"<<endl;
-					for (int i=0;i<limit;i++){
-						if (positions[i][0]==1 && selected!=i){
-							cout<<" "<<i+1<<") "<<houses[i].name;
-						}
-					}
-					cout<<endl<<endl;
-					
-					do{
-						exist=false;
-						cout<<" Enter house: ";cin>>op;
-						for (int i=0;i<limit;i++){
-							if (positions[i][0]==0 && int(op)-49==i){
-								exist = true;
-							}
-						}						
-					}while(exist || int(op)-49==selected || int(op)-48<1 || int(op)-48>8);
-					
-					do{
-						cout<<" Enter money deposit to ("<<houses[int(op)-49].name<<"):";cin>>dinero;
-					}while(dinero<0.0 || houses[selected].money<dinero);
-					
-					houses[selected].pay_amount(dinero);
-					houses[int(op)-49].money += dinero;
-					
-					cout<<"\n :: Transferene Successful ::\n";
-					getch();
-					break;
-			  
-			case '5':
-					houses[selected].rename_house();
-					getch();
-					break;
-					
-			case '6': 
-						houses[selected].change_color();getch();break;
-			case '7': break;
-			
-			default: 
-					cout<<" No existe esa opcion."<<endl;
-					break;
+	
+	switch(positions[selected][2]){
+		case 1: 
+				restaurant->menu_house();							
+				break;
+		case 2: 
+				painters->menu_house(this);							
+				break;
+		case 3: 
+				constructors->menu_house(this);		
+				break;
+		case 4: 
+				properties->menu_house(this);								
+				break;
+		case 5: 
+				transactions->menu_house(this);									
+				break;
+		case 6: 
+				stonks->menu_house(this);								
+				break;
+		case 7: 
+				hotel->menu_house();									
+				break;
+		case 8: 
+				casino->menu_house(this);									
+				break;								
 		}
-	}while(op!='7');
 }
 
 void City::collect_money(){
 	for (int i=0;i<limit;i++){
 		if (positions[i][0]==1){
-			houses[i].collect();
+			switch(positions[i][2]){
+				case 1: 
+						restaurant->collect();							
+						break;
+				case 2: 
+						painters->collect();					
+						break;
+				case 3: 
+						constructors->collect();
+						break;
+				case 4: 
+						properties->collect();							
+						break;
+				case 5: 
+						transactions->collect();								
+						break;
+				case 6: 
+						stonks->collect();							
+						break;
+				case 7: 
+						hotel->collect();									
+						break;
+				case 8: 
+						casino->collect();								
+						break;								
+			}
 		}
 	}
 }
@@ -317,30 +503,121 @@ void City::collect_money(){
 void City::receive_money(double total){
 	refresh_account();
 	double percentage;
+	
 	for (int i=0;i<limit;i++){
 		if (positions[i][0]==1){
-			percentage = houses[i].money / money;
-			houses[i].money += total * percentage;
+			switch(positions[i][2]){
+				case 1: 
+						percentage = restaurant->get_money() / this->money;
+						restaurant->receive(percentage * total);						
+						break;
+				case 2: 
+						percentage = painters->get_money() / this->money;
+						painters->receive(percentage * total);			
+						break;
+				case 3: 
+						percentage = constructors->get_money() / this->money;
+						constructors->receive(percentage * total);
+						break;
+				case 4: 
+						percentage = properties->get_money() / this->money;
+						properties->receive(percentage * total);				
+						break;
+				case 5: 
+						percentage = transactions->get_money() / this->money;
+						transactions->receive(percentage * total);											
+						break;
+				case 6: 
+						percentage = stonks->get_money() / this->money;
+						stonks->receive(percentage * total);										
+						break;
+				case 7: 
+						percentage = hotel->get_money() / this->money;
+						hotel->receive(percentage * total);												
+						break;
+				case 8: 
+						percentage = casino->get_money() / this->money;
+						casino->receive(percentage * total);							
+						break;								
+			}
 		}
 	}
 }
 
-void City::pay_money(double p){
+void City::pay_money(double total){
 	refresh_account();
 	double percentage;
+	
 	for (int i=0;i<limit;i++){
 		if (positions[i][0]==1){
-			percentage = houses[i].money / money;
-			houses[i].pay_amount(p * percentage);
+			switch(positions[i][2]){
+				case 1: 
+						percentage = restaurant->get_money() / this->money;
+						restaurant->pay_amount(percentage * total);						
+						break;
+				case 2: 
+						percentage = painters->get_money() / this->money;
+						painters->pay_amount(percentage * total);			
+						break;
+				case 3: 
+						percentage = constructors->get_money() / this->money;
+						constructors->pay_amount(percentage * total);
+						break;
+				case 4: 
+						percentage = properties->get_money() / this->money;
+						properties->pay_amount(percentage * total);				
+						break;
+				case 5: 
+						percentage = transactions->get_money() / this->money;
+						transactions->pay_amount(percentage * total);											
+						break;
+				case 6: 
+						percentage = stonks->get_money() / this->money;
+						stonks->pay_amount(percentage * total);										
+						break;
+				case 7: 
+						percentage = hotel->get_money() / this->money;
+						hotel->pay_amount(percentage * total);												
+						break;
+				case 8: 
+						percentage = casino->get_money() / this->money;
+						casino->pay_amount(percentage * total);							
+						break;								
+			}
 		}
 	}
 }
 
 void City::refresh_account(){
-	money = 0.0;
+	this->money = 0.0;
 	for (int i=0;i<limit;i++){
 		if (positions[i][0]==1){
-			money += houses[i].money;
+			switch(positions[i][2]){
+				case 1: 
+						money += restaurant->get_money();					
+						break;
+				case 2: 
+						money += painters->get_money();
+						break;
+				case 3: 
+						money += constructors->get_money();
+						break;
+				case 4: 
+						money += properties->get_money();			
+						break;
+				case 5: 
+						money += transactions->get_money();									
+						break;
+				case 6: 
+						money += stonks->get_money();									
+						break;
+				case 7: 
+						money += hotel->get_money();										
+						break;
+				case 8: 
+						money += casino->get_money();					
+						break;								
+			}
 		}
 	}
 }
@@ -349,7 +626,32 @@ void City::refresh_account(){
 void City::pay_money_month(){
 	for (int i=0;i<limit;i++){
 		if (positions[i][0]==1){
-			houses[i].payments();
+			switch(positions[i][2]){
+				case 1: 
+						restaurant->payments();							
+						break;
+				case 2: 
+						painters->payments();					
+						break;
+				case 3: 
+						constructors->payments();
+						break;
+				case 4: 
+						properties->payments();							
+						break;
+				case 5: 
+						transactions->payments();								
+						break;
+				case 6: 
+						stonks->payments();							
+						break;
+				case 7: 
+						hotel->payments();									
+						break;
+				case 8: 
+						casino->payments();								
+						break;								
+			}			
 		}
 	}
 }
@@ -381,21 +683,4 @@ void City::run_city() {
 		}
 	}
 	system("pause");
-}
-
-string City::save_city(){
-	string all = "";
-	all += world + ";";
-	
-	for (int i=0; i<limit; i++){
-		all += to_string(positions[i][0]) + ";";
-	}	
-	
-	for (int i=0; i<limit; i++){
-		all += houses[i].save_house();
-	}
-	
-	all += calendar.save_calendar();
-	
-	return all;
 }

@@ -12,17 +12,41 @@ Alumnos:
 
 #include "House.h"
 
-int models[4][6] = {{61,61,61,124,254,124},{94,94,94,91,4,93},
+int models[8][6] = {{61,61,61,124,254,124},{30,30,30,91,4,93},
+					{220,223,220,219,254,219},{241,241,241,177,35,177},
+					{194,79,194,180,12,195},{105,105,105,221,207,221},
 					{203,205,203,186,186,186},{242,242,242,197,197,197}};
-double prices[4][2] = {{10000.0,100.0}, {18000.0, 180.0}, {25000.0, 250.0},{40000.0, 400.0}};
-
+					
+double prices[8][2] = {{10000.0,100.0}, {12000.0, 120.0}, {15000.0, 150.0},{15000.0, 150.0},
+				{20000.0, 200.0}, {25000.0, 250.0}, {35000.0, 350.0}, {40000.0, 400.0}};
+				
+string description[8] = {"1) Restaurant", "2) Painters", "3) Constructor", "4) Properties",
+				"5) Transactions", "6) Stonks", "7) Hotel", "8) Casino"};
+				
+string description_text[8] = {" This house permit food to the user for not dying.",
+ " This house allow to the house paint to others houses.", 
+ " This house allow update or built floors to every house. ", 
+ " This allow change name of to every house and sell these.", 
+ " This house allow translate money between houses.", 
+ " This house allow hack and invert in any bussines.", 
+ " This house is in process.",
+ " This house serves for playing games and earn money."};
+ 
+ 
 House::House(int h=0, int x=5, string name="nothing"){
 	limit = 30;
 	n = 2;
 	
+	model = new int [6];   // separamos memoria pra un arreglo
 	for (int i=0;i<6;i++){
 		model[i] = models[h][i];
 	}
+	
+	house = new int *[30];  // separamos memoria para un arreglo de punteros
+	for(int i=0; i<30;i++){
+		house[i] = new int [2]; // separamos memoria para un arreglo
+	}
+	
 	house[0][0] = x;
 	house[0][1] = 38;
 	house[1][0] = x;
@@ -35,6 +59,7 @@ House::House(int h=0, int x=5, string name="nothing"){
 	price = prices[h][0];
 	pay = prices[h][1];
 	
+	money_month = new double [4]; // separamos memoria para un arreglo
 	for (int i=0;i<4;i++){
 		money_month[i] = 0.0;
 	}
@@ -42,6 +67,16 @@ House::House(int h=0, int x=5, string name="nothing"){
 	tax = 0.2;
 	employees = 20.0;
 	light_and_water = 0.0;
+}
+
+House::~House(){   // liberamos memoria reservada.
+	delete[] model;
+	
+	for(int i=0; i<30;i++){
+		delete[] house[i];
+	}
+	delete[] house;
+	delete[] money_month;
 }
 
 void House::load_house(string arr[], int index){
@@ -109,7 +144,16 @@ void House::add_house(){
 	double sell_house_price = 0.25, total;
 	if (n<limit){
 		if (money > price*sell_house_price){
-			int pisos;char op;
+			int pisos=28;char op;
+			
+			for(int i=1.0; i<limit-2; i++){
+				if(double(i)*price*sell_house_price > money){
+					pisos = i - 1;
+					break;
+				}
+			}
+			
+			cout<<"\n Max number of floors with you buget "<<pisos<<endl;
 			do{
 				cout <<"\n How many floors you want to buy ? ";cin>>pisos;
 				total = double(pisos)*(price*sell_house_price);
@@ -172,11 +216,12 @@ void House::draw_house(int row){
 	cout<<RESET;
 }
 
-void House::rename_house(){
-	fflush(stdin);
-	cout<<"\n Enter new name: ";getline(cin,name);
-	fflush(stdin);
-	cout<<"\n :: Successful Rename ::\n";
+void House::set_name_house(string rename){
+	name = rename;
+}
+
+void House::set_color(int c){
+	color = c;
 }
 
 void House::change_color(){
@@ -216,7 +261,7 @@ void House::change_color(){
 
 
 void House::house_info(){
-	cout <<"\n ============>>> "<<name<<endl<<endl;
+	cout <<"\n\n ============>>> "<<name<<endl<<endl;
 	cout <<"\t:: House ::"<<endl;
 	cout <<" Current Money: "<<money<<" $"<<endl;
 	cout <<" Money per month: "<<1.0<<" $ - "<<pay<<" $"<<endl;
@@ -226,6 +271,7 @@ void House::house_info(){
 	cout<< " Tax(impuesto): "<<tax*100.0<<"% of month"<<endl;
 	cout<<" Employees: "<<employees<<" $"<<endl;
 	cout<< " light and water: 10 $ - 30 $"<<endl<<endl;
+	getch();
 }
 
 void House::collect(){
@@ -246,6 +292,14 @@ void House::collect(){
 
 void House::pay_amount(double amount){
 	money -= amount;
+}
+
+void House::receive(double amount){
+	money += amount;
+}
+
+double House::get_money(){
+	return money;
 }
 
 void House::payments(){

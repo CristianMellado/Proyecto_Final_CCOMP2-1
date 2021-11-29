@@ -10,20 +10,83 @@ Alumnos:
  - Alexander Carpio Mamani
 *****************************************************************/
 
-#include "DataBase.h"
+#include "Administrator.h"
 
-DataBase::DataBase(){
+Admi::Admi(){
+	n_data = 156;
+	file = nullptr;
 	cities = nullptr;
 }
 
-DataBase::~DataBase(){
-	if (cities){ //  if cities is diff to nullptr.
-		delete cities;
+void Admi::menu_start(){
+	ifstream datos; 
+	string info, world, name;
+	char key; 
+	int one_t = 19, one_b=26, two_t = 27, two_b = 34, i=1;
+	bool one=true, two=false;
+
+	while(1){
+		//datos.open("inicio.txt", ios::in);  
+			
+		do{
+			datos.open("inicio.txt", ios::in); 
+			i = 1;
+			system("cls");
+			if(datos.fail()){
+				cout<<" Error. file didnt find of menu start."<<endl;
+				system("pause");
+				exit(1);
+			}
+			else{
+				while(!datos.eof()){
+					
+					if ((one && i >=one_t && i<=one_b) || (two && i >=two_t && i<=two_b)){
+						cout<<BLOCK_GREEN<<BLACK;
+					}
+					getline(datos, info);
+					cout<<info<<RESET<<endl;	
+					i++;
+				}
+				datos.close();
+			}
+			
+			key = 'a';
+			if (kbhit()){
+				key = getch();
+				if (key=='w'){
+					one = true;
+					two = false;
+				}
+				else if (key=='s'){
+					one = false;
+					two = true;
+				}
+			}
+			
+		}while(key!=13);
+		
+		system("cls");
+		//cities = nullptr;
+		if (one){
+			cout<<"\n =======>>> NEW WORLD =======>>>\n\n";
+			fflush(stdin);
+			cout<<" Enter world name: ";getline(cin,world);
+			fflush(stdin);
+			cout<<" Enter first local name: ";getline(cin,name);
+			fflush(stdin);
+			
+			create_new_data(world, name);
+		}
+		else{
+			cout<<"\n =======>>> WORLDS =======>>>\n\n";
+			load_data();
+		}
+		
 	}
 }
 
 
-void DataBase::create_new_data(string world, string name){
+void Admi::create_new_data(string world, string name){
 	ifstream read_file, w_r;
 	ofstream write_file, w_a;
 	
@@ -39,8 +102,6 @@ void DataBase::create_new_data(string world, string name){
 		if (write_file.fail() || w_a.fail()){
 			write_file.close();
 			w_a.close();
-			cout<<"\n\n Error con algun archivo, cierre el programa y compile de nuevo.\n\n";
-			getch();
 			exit(1);
 		}
 		else{
@@ -69,7 +130,7 @@ void DataBase::create_new_data(string world, string name){
 	}
 	else{
 		cities = new City(world, name);
-		cities->receive_money(1000000.0);
+		//cities->houses[0].money = 1000000.0;
 		
 		w_a<<world<<endl;
 		w_a.close();
@@ -80,11 +141,10 @@ void DataBase::create_new_data(string world, string name){
 		write_file.close();
 		
 		delete cities;
-		cities = nullptr;
 	}
 }
 
-void DataBase::load_data(){
+void Admi::load_data(){
 	ifstream read_file, world_file;
 
 	read_file.open("database.txt", ios::in);
@@ -102,8 +162,7 @@ void DataBase::load_data(){
 		while(!world_file.eof()){
 			getline(world_file, info);
 			if (info=="") break;
-			cout<<" "<<
-			i+1<<") "<<info<<endl;
+			cout<<i+1<<") "<<info<<endl;
 			i++;
 		}
 		world_file.close();
@@ -117,18 +176,12 @@ void DataBase::load_data(){
 		i = 1;
 		while(!read_file.eof()){
 			getline(read_file, info);
-			cout<<"==> "<<i <<" : "<<info<<endl;
-			if(info.length() > 2){
-				if (i==select) break;
-				i++;
-			}
+			if (i==select) break;
+			i++;
 		}
 		read_file.close();
 		
-		getch();
-		
-		int n = data_len(info); // number of all variables to load.
-		string arr[n];
+		string arr[n_data];
 		get_data(info, arr);
 		
 		cities = new City;
@@ -138,30 +191,10 @@ void DataBase::load_data(){
 		save_data(cities->save_city(), select);
 		
 		delete cities;
-		cities = nullptr;
 	}
 }
 
-int DataBase::data_len(string data){
-	istringstream input(data);
-	int n = 0;
-	for (string element; input.getline(&element[0], 24, ';'); ) {
-		n++;
-    }	
-	return n;
-}
-
-void DataBase::get_data(string data, string arr[]){
-	istringstream input(data);
-    
-	int i = 0;
-	for (string element; input.getline(&element[0], 24, ';'); ) {
-        arr[i] = &element[0];
-		i++;
-    }
-}
-
-void DataBase::save_data(string data, int index){
+void Admi::save_data(string data, int index){
 	ifstream read_file, copy_read;
 	ofstream write_file, copy_file;
 
@@ -171,15 +204,13 @@ void DataBase::save_data(string data, int index){
 	if(read_file.fail() || copy_file.fail()){
 		read_file.close();
 		copy_file.close();
-		cout<<"\n\n Error con algun archivo, cierre el programa y compile de nuevo.\n\n";
-		getch();
 		exit(1);
 	}
 	else{
 		string info;
 		while(!read_file.eof()){
 			getline(read_file, info);
-			if(info.length() > 2) copy_file<<info<<endl;
+			copy_file<<info<<endl;
 		}
 		read_file.close();
 		copy_file.close();
@@ -187,12 +218,6 @@ void DataBase::save_data(string data, int index){
 		remove("database.txt");
 		copy_read.open("copy_database.txt", ios::in);
 		write_file.open("database.txt", ios::out);
-		
-		if(copy_read.fail() || write_file.fail()){
-			cout<<"\n\n Error con algun archivo, cierre el programa y compile de nuevo.\n\n";
-			getch();
-			exit(1);
-		}
 
 		int i = 1;
 		while(!copy_read.eof()){
@@ -210,4 +235,15 @@ void DataBase::save_data(string data, int index){
 
 		remove("copy_database.txt");
 	}	
+}
+
+
+void Admi::get_data(string data, string arr[]){
+	istringstream input(data);
+    
+	int i = 0;
+	for (string element; input.getline(&element[0], 24, ';'); ) {
+        arr[i] = &element[0];
+		i++;
+    }
 }

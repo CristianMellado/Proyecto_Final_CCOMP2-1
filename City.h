@@ -10,21 +10,27 @@ Alumnos:
  - Alexander Carpio Mamani
 *****************************************************************/
 
-#include "House.cpp"
+#pragma once
+#include "Types_house.h"
 #include "Calendar.cpp"
-#include "minigames.cpp"
-#include "inversion.cpp"
 
 class City{
 	public:
 		string world;
 		int limit, **positions, size_house;
 		double money;
-		House houses[8];
+		
+		Casino *casino;
+		Transactions *transactions;
+		Properties *properties;
+		Painters *painters;
+		Constructors *constructors;
+		Stonks *stonks;
+		Restaurant *restaurant;
+		Hotel *hotel;
+		
 		bool game;
 		Calendar calendar;
-		MiniGames games;
-		Inversion inver;
 	
 		City(string, string);
 		~City();
