@@ -14,6 +14,10 @@ Alumnos:
 
 Menu::Menu(){
 	db = new DataBase();
+	
+	//getcwd(dir_menu, 256);
+	//strcat(dir_menu, "inicio.txt");	
+	//strcpy(dir_menu, "inicio.txt");
 }
 
 Menu::~Menu(){
@@ -28,9 +32,9 @@ void Menu::menu_start(){
 	bool one=true, two=false;
 
 	while(1){
-		//datos.open("inicio.txt", ios::in);  
-			
+		//datos.open("inicio.txt", ios::in); 
 		do{
+			//datos.open(dir_menu, ios::in); 
 			datos.open("inicio.txt", ios::in); 
 			i = 1;
 			system("cls");
@@ -50,6 +54,8 @@ void Menu::menu_start(){
 					i++;
 				}
 				datos.close();
+				//datos.clear();
+				//datos.seekg(0, ios::beg);
 			}
 			
 			key = 'a';
@@ -83,6 +89,5 @@ void Menu::menu_start(){
 			cout<<"\n =======>>> WORLDS =======>>>\n\n";
 			db->load_data();
 		}
-		
 	}
 }

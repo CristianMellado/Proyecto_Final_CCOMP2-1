@@ -35,7 +35,7 @@ bool Calendar::update_calendar(){
 }
 		
 
-bool Calendar::draw_calendar(double money){
+bool Calendar::draw_calendar(double money, int food){
 	cout<<"\n Money: "<<money<<" $\t Calendar: "<<year;
 	switch (month){
 		case 1: cout<<" January ";break;
@@ -52,8 +52,15 @@ bool Calendar::draw_calendar(double money){
 		case 12: cout<<" December ";break;
 	}
 			
-	cout <<day<<endl;
-			
+	cout <<day;
+	
+	cout<<"\t\t\t\t\t Food: ";
+	for(int i =0;i<food; i++){
+		cout<<char(3);
+	}
+	
+	cout<<endl;
+	
 	return update_calendar();
 }
 

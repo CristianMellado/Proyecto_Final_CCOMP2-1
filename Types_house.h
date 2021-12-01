@@ -82,7 +82,7 @@ class Restaurant : public House{
 		Restaurant(int , int , string );
 		~Restaurant();
 		
-		void menu_house();
+		void menu_house(City *);
 };
 
 
@@ -103,4 +103,6 @@ class Hotel : public House{
 		~Hotel();
 		
 		void menu_house();
+		void house_info();
+		void collect();
 };

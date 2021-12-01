@@ -10,16 +10,18 @@ Alumnos:
  - Alexander Carpio Mamani
 *****************************************************************/
 
-#pragma once
 #include "City.cpp"
 #include "Types_house.cpp"
-#include <sstream>
+//#include <sstream>
 
 class City;
 
 class DataBase{
 	public:
+		int len_data;
+		string *arr;
 		City *cities;
+		//char dir_worlds[256], dir_database[256], dir_copy[256];
 		
 		DataBase();
 		~DataBase();
@@ -27,6 +29,6 @@ class DataBase{
 		void load_data();
 		void create_new_data(string, string);
 		void save_data(string, int);
-		void get_data(string, string[]);
-		int data_len(string);
+		void get_data(string);
+		void data_len(string);
 };

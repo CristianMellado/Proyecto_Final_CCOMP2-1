@@ -18,7 +18,7 @@ class Calendar{
 		Calendar();
 		int day, year, month, interval;
 		bool update_calendar();
-		bool draw_calendar(double );
+		bool draw_calendar(double , int);
 		void load_calendar(string [], int);
 		string save_calendar();
 };

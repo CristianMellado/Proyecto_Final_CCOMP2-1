@@ -37,7 +37,7 @@ void Casino::menu_house(City *city){
 	char op;
 	double total;
 	do{
-		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Casino\n 3) Exit\n option: ";
+		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Casino\n 3) Exit\n\n option: ";
 		cin>>op;
 		switch(op){
 			case '1': 	house_info();
@@ -68,7 +68,7 @@ void Transactions::menu_house(City *city){
 	double total, from_money;
 	bool exist;
 	do{
-		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Trasfering money\n 3) Exit\n option: ";
+		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Trasfering money\n 3) Exit\n\n option: ";
 		cin>>op;
 		switch(op){
 			case '1': 	house_info();
@@ -276,7 +276,7 @@ void Properties::menu_house(City *city){
 	string rename;
 	bool exist;
 	do{
-		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Change name\n 3) Sell house\n 4) Exit\n option: ";
+		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Change name\n 3) Sell house\n 4) Exit\n\n option: ";
 		cin>>op;
 		switch(op){
 			case '1': 	house_info();
@@ -518,7 +518,7 @@ void Painters::menu_house(City *city){
 	char op;
 	bool exist;
 	do{
-		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Change color\n 3) Exit\n option: ";
+		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Change color\n 3) Exit\n\n option: ";
 		cin>>op;
 		switch(op){
 			case '1': 	house_info();
@@ -615,7 +615,7 @@ void Constructors::menu_house(City *city){
 	char op;
 	bool exist;
 	do{
-		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Level Up House\n 3) Exit\n option: ";
+		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Level Up House\n 3) Exit\n\n option: ";
 		cin>>op;
 		switch(op){
 			case '1': 	house_info();
@@ -716,7 +716,7 @@ void Stonks::menu_house(City *city){
 	char op;
 	double total;
 	do{
-		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Inversion\n 3) Hacker mode\n 4) Exit\n option: ";
+		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Inversion\n 3) Hacker mode\n 4) Exit\n\n option: ";
 		cin>>op;
 		switch(op){
 			case '1': 	house_info();
@@ -751,8 +751,56 @@ Restaurant::Restaurant(int house_type=0, int pos=5, string name="nothing"):House
 Restaurant::~Restaurant(){
 }
 
-void Restaurant::menu_house(){
-	house_info();
+void Restaurant::menu_house(City *city){
+	char op, op2; 
+	int n;
+	double total;
+	do{
+		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Buy food\n 3) Exit\n\n option: ";
+		cin>>op;
+		switch(op){
+			case '1': 	house_info();
+						break;
+			case '2': 
+						cout<<" =========>>> Shop Food:\n\n";
+						cout<<" 1) Water (1 point)(1.00 $).\n 2) Vegetables (2 points)(8.00 $).\n 3) Meat (3 points)(15.00 $)\n\n";
+						
+						cout<<endl;
+						
+						do{
+							cout<<" Option: ";cin>>op2;
+						}while(int(op2)-48 < 1 || int(op2)-48 > 3);
+						
+						cout<<endl;
+						
+						do{
+							cout<<" Number of amount(1: 1-30)(2: 1-15)(3: 1-10): ";cin>>n;
+						}while(n < 1 || n > 30);
+						
+						switch(op2){
+							case '1': total = n * 1.0;break;
+							case '2': total = n * 8.0;break;
+							case '3': total = n * 15.0;break;
+						}
+						
+						if (city->money > total ){
+							city->pay_money(total);
+							
+							if(city->limit_food - city->n_food - ((int(op2)-48)*n) - 1 <= 0){
+								city->n_food = city->limit_food;
+							}
+							else{
+								city->n_food += (int(op2)-48)*n + 1;
+							}
+							cout<<"\n\n  :: Successful Buy ::\n\n";
+						}
+						else{
+							cout<<"\n\n You dont have enough money.\n\n";
+						}
+						getch();
+						break;				
+		}
+	}while(op!='3');
 }
 
 
@@ -765,4 +813,30 @@ Hotel::~Hotel(){
 
 void Hotel::menu_house(){
 	house_info();
+}
+
+void Hotel::collect(){
+	double recollected = double(pay * double(n-1));
+	money += recollected;
+	
+	double money_aux;
+	for (int i=0;i<4;i++){
+		money_aux = money_month[i];
+		money_month[i] = recollected;
+		recollected = money_aux;
+	}	
+}
+
+void Hotel::house_info(){
+	cout <<"\n\n ============>>> "<<name<<endl<<endl;
+	cout <<"\t:: House ::"<<endl;
+	cout <<" Current Money: "<<money<<" $"<<endl;
+	cout <<" Money per month: "<<pay<<" $"<<endl;
+	cout<<" Price House: "<<price<<" $"<<endl<<endl;
+	
+	cout <<"\t:: Payments ::"<<endl;
+	cout<< " Tax(impuesto): "<<tax*100.0<<"% of month"<<endl;
+	cout<<" Employees: "<<employees<<" $"<<endl;
+	cout<< " light and water: 10 $ - 30 $"<<endl<<endl;
+	getch();
 }

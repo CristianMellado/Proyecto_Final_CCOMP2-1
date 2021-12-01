@@ -33,9 +33,9 @@ class House{
 		void set_name_house(string);
 		void set_color(int );
 		void change_color();
-		void house_info();
+		virtual void house_info();
 		double get_money();
-		void collect();
+		virtual void collect();
 		void pay_amount(double);
 		void receive(double);
 		void payments();

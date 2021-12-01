@@ -18,6 +18,10 @@ City::City(string world="nada", string name="nada"){
 	money=0.0;
 	game = true;
 	
+	limit_food = 31;
+	n_food = limit_food;
+	
+	
 	this->world = world;
 	
 	restaurant = new Restaurant(0,5,name);
@@ -67,6 +71,7 @@ City::~City(){
 	delete[] positions;
 	
 	delete casino;
+	delete restaurant;
 	delete transactions;
 	delete properties;
 	delete painters;
@@ -76,8 +81,10 @@ City::~City(){
 }
 
 void City::load_city(string arr[]){
-	int index = 1;
 	world = arr[0];
+	n_food = atoi(arr[1].c_str());
+	
+	int index = 2;
 	
 	for (int i=0;i<limit;i++){
 		positions[i][0] = atoi(arr[index].c_str());
@@ -117,7 +124,9 @@ void City::load_city(string arr[]){
 
 string City::save_city(){
 	string all = "";
+	
 	all += world + ";";
+	all += to_string(n_food) + ";";
 	
 	for (int i=0; i<limit; i++){
 		all += to_string(positions[i][0]) + ";";
@@ -436,12 +445,11 @@ void City::more_options(){
 
 void City::city_houses(int selected){
 	char op;
-	double dinero;
 	bool exist;
 	
 	switch(positions[selected][2]){
 		case 1: 
-				restaurant->menu_house();							
+				restaurant->menu_house(this);							
 				break;
 		case 2: 
 				painters->menu_house(this);							
@@ -468,35 +476,38 @@ void City::city_houses(int selected){
 }
 
 void City::collect_money(){
-	for (int i=0;i<limit;i++){
-		if (positions[i][0]==1){
-			switch(positions[i][2]){
-				case 1: 
-						restaurant->collect();							
-						break;
-				case 2: 
-						painters->collect();					
-						break;
-				case 3: 
-						constructors->collect();
-						break;
-				case 4: 
-						properties->collect();							
-						break;
-				case 5: 
-						transactions->collect();								
-						break;
-				case 6: 
-						stonks->collect();							
-						break;
-				case 7: 
-						hotel->collect();									
-						break;
-				case 8: 
-						casino->collect();								
-						break;								
+	if(n_food > 0){
+		for (int i=0;i<limit;i++){
+			if (positions[i][0]==1){
+				switch(positions[i][2]){
+					case 1: 
+							restaurant->collect();							
+							break;
+					case 2: 
+							painters->collect();					
+							break;
+					case 3: 
+							constructors->collect();
+							break;
+					case 4: 
+							properties->collect();							
+							break;
+					case 5: 
+							transactions->collect();								
+							break;
+					case 6: 
+							stonks->collect();							
+							break;
+					case 7: 
+							hotel->collect();									
+							break;
+					case 8: 
+							casino->collect();								
+							break;								
+				}
 			}
 		}
+		n_food--;
 	}
 }
 
@@ -668,7 +679,7 @@ void City::run_city() {
 		//std::cout<<"\033[H\033[2J\033[3J";
 		
 		refresh_account();
-		action = calendar.draw_calendar(money);
+		action = calendar.draw_calendar(money, n_food);
 
 		draw_game();
 		

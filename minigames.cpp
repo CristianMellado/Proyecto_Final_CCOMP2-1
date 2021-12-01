@@ -18,6 +18,13 @@ MiniGames::MiniGames(){
 	tictac_money = 200.0;
 	snake_money=10.0;
 	rulette_money = 200.0;
+	
+	//getcwd(directory_hacker, 256);   // save the current directory in the arr var directory_hacker.
+	//strcat(directory_hacker, "hacker_text.txt");  //concatenate with filename of hacker text.
+	//strcpy(directory_hacker, "hacker_text.txt");
+}
+
+MiniGames::~MiniGames(){
 }
 
 double MiniGames::menu_minigames(){
@@ -64,7 +71,7 @@ double MiniGames::Rulette(){
 	bool c_t = true, c_b = true, c_l=true, c_r=true, ball=true, con;
 	
 	cout<<"\n  ======= Ruleta =====>>> :b"<<endl<<endl;
-	cout<<num<<endl;
+	//cout<<num<<endl;
 	do{
 		cout <<" 1) color(green: x3, red and black: x1)\n 2) number(x7)\n option: ";cin>>op;
 	}while(op!='1' && op!='2');
@@ -192,7 +199,7 @@ double MiniGames::Rulette(){
 		pay = rulette_money*5;
 		cout <<" YOU WIN "<<pay<<" $ !!!"<<endl;
 	}
-	else if (selected == 'g'){
+	else if (selected == 'g' && win == 'g'){
 		pay = rulette_money*3;
 		cout <<" YOU WIN "<<pay<<" $ !!!"<<endl;
 	}
@@ -554,7 +561,8 @@ double MiniGames::hacker_mode(){
 	ifstream datos; 
 	string info;
 	
-	datos.open("hacker_text.txt", ios::in);  
+	//datos.open(directory_hacker, ios::in);  
+	datos.open("hacker_text.txt", ios::in);
 		
 	if(datos.fail()){
 		cout<<" Error. file didnt find of hacker text."<<endl;

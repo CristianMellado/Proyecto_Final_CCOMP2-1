@@ -15,6 +15,7 @@ Alumnos:
 class Menu{
 	public:
 		DataBase *db;
+		//char dir_menu[256];
 		
 		Menu();
 		~Menu();
