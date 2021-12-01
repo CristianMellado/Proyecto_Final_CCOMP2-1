@@ -15,16 +15,16 @@ Alumnos:
 DataBase::DataBase(){
 	cities = nullptr;
 	
-	//getcwd(dir_worlds, 256);
-	//strcat(dir_worlds, "worlds.txt");
+	getcwd(dir_worlds, 256);
+	strcat(dir_worlds, "\\worlds.txt");
 	//strcpy(dir_worlds, "worlds.txt");
 	
-	//getcwd(dir_database, 256);
-	//strcat(dir_database, "database.txt");
+	getcwd(dir_database, 256);
+	strcat(dir_database, "\\database.txt");
 	//strcpy(dir_database, "database.txt");
 	
-	//getcwd(dir_copy, 256);
-	//strcat(dir_copy, "copy_database.txt");
+	getcwd(dir_copy, 256);
+	strcat(dir_copy, "\\copy_database.txt");
 	//strcpy(dir_copy, "copy_database.txt");
 }
 
@@ -42,20 +42,20 @@ void DataBase::create_new_data(string world, string name){
 	ifstream read_file, w_r;
 	ofstream write_file, w_a;
 	
-	// read_file.open(dir_database, ios::in);
-	// w_r.open(dir_worlds, ios::in);
+	read_file.open(dir_database, ios::in);
+	w_r.open(dir_worlds, ios::in);
 	
-	read_file.open("database.txt", ios::in);
-	w_r.open("worlds.txt", ios::in);
+	// read_file.open("database.txt", ios::in);
+	// w_r.open("worlds.txt", ios::in);
 	
 	if(read_file.fail() || w_r.fail()){
 		read_file.close();
 		w_r.close();
-		// write_file.open(dir_database, ios::out);
-		// w_a.open(dir_worlds, ios::out);
+		write_file.open(dir_database, ios::out);
+		w_a.open(dir_worlds, ios::out);
 		
-		write_file.open("database.txt", ios::out);
-		w_a.open("worlds.txt", ios::out);
+		// write_file.open("database.txt", ios::out);
+		// w_a.open("worlds.txt", ios::out);
 		
 		if (write_file.fail() || w_a.fail()){
 			write_file.close();
@@ -74,12 +74,11 @@ void DataBase::create_new_data(string world, string name){
 		w_r.close();
 	}
 	
+	write_file.open(dir_database, ios::app);
+	w_a.open(dir_worlds, ios::app);
 	
-	// write_file.open(dir_database, ios::app);
-	// w_a.open(dir_worlds, ios::app);
-	
-	write_file.open("database.txt", ios::app);
-	w_a.open("worlds.txt", ios::app);
+	// write_file.open("database.txt", ios::app);
+	// w_a.open("worlds.txt", ios::app);
 	
 	if(write_file.fail()){
 		cout<<"\n Error, NO se pudo añadir elementos al archivo."<<endl;
@@ -93,7 +92,7 @@ void DataBase::create_new_data(string world, string name){
 	}
 	else{
 		cities = new City(world, name);
-		//cities->receive_money(1000000.0);
+		cities->receive_money(1000000.0);
 		
 		w_a<<world<<endl;
 		w_a.close();
@@ -111,11 +110,11 @@ void DataBase::create_new_data(string world, string name){
 void DataBase::load_data(){
 	ifstream read_file, world_file;
 
-	// read_file.open(dir_database, ios::in);
-	// world_file.open(dir_worlds, ios::in);
+	read_file.open(dir_database, ios::in);
+	world_file.open(dir_worlds, ios::in);
 	
-	read_file.open("database.txt", ios::in);
-	world_file.open("worlds.txt", ios::in);
+	// read_file.open("database.txt", ios::in);
+	// world_file.open("worlds.txt", ios::in);
 	
 	if(read_file.fail() || world_file.fail()){
 		read_file.close();
@@ -144,7 +143,7 @@ void DataBase::load_data(){
 		i = 1;
 		while(!read_file.eof()){
 			getline(read_file, info);
-			cout<<"==> "<<i <<" : "<<info<<endl;
+			//cout<<"==> "<<i <<" : "<<info<<endl;
 			if(info.length() > 2){
 				if (i==select) break;
 				i++;
@@ -211,11 +210,11 @@ void DataBase::save_data(string data, int index){
 	ifstream read_file, copy_read;
 	ofstream write_file, copy_file;
 
-	// read_file.open(dir_database, ios::in);
-	// copy_file.open(dir_copy, ios::out);
+	read_file.open(dir_database, ios::in);
+	copy_file.open(dir_copy, ios::out);
 
-	read_file.open("database.txt", ios::in);
-	copy_file.open("copy_database.txt", ios::out);
+	// read_file.open("database.txt", ios::in);
+	// copy_file.open("copy_database.txt", ios::out);
 	
 	if(read_file.fail() || copy_file.fail()){
 		read_file.close();
@@ -233,13 +232,13 @@ void DataBase::save_data(string data, int index){
 		read_file.close();
 		copy_file.close();
 
-		// remove(dir_database);
-		// copy_read.open(dir_copy, ios::in);
-		// write_file.open(dir_database, ios::out);
+		remove(dir_database);
+		copy_read.open(dir_copy, ios::in);
+		write_file.open(dir_database, ios::out);
 
-		remove("database.txt");
-		copy_read.open("copy_database.txt", ios::in);
-		write_file.open("database.txt", ios::out);
+		// remove("database.txt");
+		// copy_read.open("copy_database.txt", ios::in);
+		// write_file.open("database.txt", ios::out);
 		
 		if(copy_read.fail() || write_file.fail()){
 			cout<<"\n\n Error con algun archivo, cierre el programa y compile de nuevo.\n\n";
@@ -261,7 +260,7 @@ void DataBase::save_data(string data, int index){
 		copy_read.close();
 		write_file.close();
 
-		//remove(dir_copy);
-		remove("copy_database.txt");
+		remove(dir_copy);
+		// remove("copy_database.txt");
 	}	
 }

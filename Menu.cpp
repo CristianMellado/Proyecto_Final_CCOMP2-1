@@ -15,8 +15,8 @@ Alumnos:
 Menu::Menu(){
 	db = new DataBase();
 	
-	//getcwd(dir_menu, 256);
-	//strcat(dir_menu, "inicio.txt");	
+	getcwd(dir_menu, 256);
+	strcat(dir_menu, "\\inicio.txt");	
 	//strcpy(dir_menu, "inicio.txt");
 }
 
@@ -34,8 +34,8 @@ void Menu::menu_start(){
 	while(1){
 		//datos.open("inicio.txt", ios::in); 
 		do{
-			//datos.open(dir_menu, ios::in); 
-			datos.open("inicio.txt", ios::in); 
+			datos.open(dir_menu, ios::in); 
+			//datos.open("inicio.txt", ios::in); 
 			i = 1;
 			system("cls");
 			if(datos.fail()){

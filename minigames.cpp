@@ -19,8 +19,8 @@ MiniGames::MiniGames(){
 	snake_money=10.0;
 	rulette_money = 200.0;
 	
-	//getcwd(directory_hacker, 256);   // save the current directory in the arr var directory_hacker.
-	//strcat(directory_hacker, "hacker_text.txt");  //concatenate with filename of hacker text.
+	getcwd(directory_hacker, 256);   // save the current directory in the arr var directory_hacker.
+	strcat(directory_hacker, "\\hacker_text.txt");  //concatenate with filename of hacker text.
 	//strcpy(directory_hacker, "hacker_text.txt");
 }
 
@@ -561,8 +561,8 @@ double MiniGames::hacker_mode(){
 	ifstream datos; 
 	string info;
 	
-	//datos.open(directory_hacker, ios::in);  
-	datos.open("hacker_text.txt", ios::in);
+	datos.open(directory_hacker, ios::in);  
+	//datos.open("hacker_text.txt", ios::in);
 		
 	if(datos.fail()){
 		cout<<" Error. file didnt find of hacker text."<<endl;

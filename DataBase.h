@@ -21,7 +21,7 @@ class DataBase{
 		int len_data;
 		string *arr;
 		City *cities;
-		//char dir_worlds[256], dir_database[256], dir_copy[256];
+		char dir_worlds[256], dir_database[256], dir_copy[256];
 		
 		DataBase();
 		~DataBase();

@@ -14,13 +14,13 @@ Alumnos:
 #include <conio.h>
 #include <fstream>
 #include <string.h>
-//#include <unistd.h>
+#include <unistd.h>
 #include "Colors.cpp"
 using namespace std;
 
 class MiniGames{
 	public:
-		//char directory_hacker[256];
+		char directory_hacker[256];
 		double entry, total, tictac_money, snake_money, rulette_money;
 		
 		MiniGames();
