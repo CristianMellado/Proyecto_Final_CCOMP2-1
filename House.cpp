@@ -24,13 +24,13 @@ string description[8] = {"1) Restaurant", "2) Painters", "3) Constructor", "4) P
 				"5) Transactions", "6) Stonks", "7) Hotel", "8) Casino"};
 				
 string description_text[8] = {" This house permit food to the user for not dying.",
- " This house allow to the house paint to others houses.", 
- " This house allow update or built floors to every house. ", 
- " This allow change name of to every house and sell these.", 
- " This house allow translate money between houses.", 
- " This house allow hack and invert in any bussines.", 
- " This house earn per week 350 $.",
- " This house serves for playing games and earn money."};
+	 " This house allow to the house paint to others houses.", 
+	 " This house allow update or built floors to every house. ", 
+	 " This allow change name of to every house and sell these.", 
+	 " This house allow translate money between houses.", 
+	 " This house allow hack and invert in any bussines.", 
+	 " This house ears 350 $.",
+	 " This house serves for playing games and earn money."};
  
  
 House::House(int h=0, int x=5, string name="nothing"){
@@ -142,6 +142,8 @@ bool House::request_house(int x, int y){
 
 void House::add_house(){
 	double sell_house_price = 0.25, total;
+	string pisos_s;
+	
 	if (n<limit){
 		if (money > price*sell_house_price){
 			int pisos=28;char op;
@@ -155,7 +157,11 @@ void House::add_house(){
 			
 			cout<<"\n Max number of floors with you buget "<<pisos<<endl;
 			do{
-				cout <<"\n How many floors you want to buy ? ";cin>>pisos;
+				cout <<"\n How many floors you want to buy ? ";
+				fflush(stdin);
+				getline(cin, pisos_s);
+				fflush(stdin);
+				pisos = atoi(pisos_s.c_str());
 				total = double(pisos)*(price*sell_house_price);
 			}while(pisos<0 || pisos > 30-n || total>money);
 			
@@ -226,6 +232,7 @@ void House::set_color(int c){
 
 void House::change_color(){
 	int op;
+	string op_s;
 	char confirm;
 	double total = 100.0 * double(n);
 	
@@ -240,7 +247,11 @@ void House::change_color(){
 		cout<<" 7) Cyan \t\t 15) Light Cyan\n";
 		cout<<" 8) White \t\t 16) Light White\n\n";
 		do{
-			cout <<" option: ";cin>>op;
+			cout <<" option: ";
+			fflush(stdin);
+			getline(cin, op_s);
+			fflush(stdin);
+			op = atoi(op_s.c_str());
 		}while(op<1 || op>16);
 		
 		do{

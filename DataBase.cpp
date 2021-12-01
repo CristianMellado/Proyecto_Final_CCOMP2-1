@@ -125,7 +125,7 @@ void DataBase::load_data(){
 	}
 	else{
 		int i=0, select;
-		string info;
+		string info, select_s;
 		while(!world_file.eof()){
 			getline(world_file, info);
 			if (info=="") break;
@@ -137,7 +137,11 @@ void DataBase::load_data(){
 		cout<<endl;
 		
 		do{
-			cout<<" Enter world(1-"<<i<<"): ";cin>>select;
+			cout<<" Enter world(1-"<<i<<"): ";
+			fflush(stdin);
+			getline(cin, select_s);
+			fflush(stdin);
+			select = atoi(select_s.c_str());
 		}while(select<1 || select >i);
 		
 		i = 1;

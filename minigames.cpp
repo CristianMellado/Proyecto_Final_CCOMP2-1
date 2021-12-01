@@ -68,6 +68,7 @@ double MiniGames::Rulette(){
 	char op, mark = char(254), win, selected='n';
 	srand(time(NULL));
 	int num = rand()%20, t, b, l, r, pos[2]={0,0}, cl, number;
+	string number_s;
 	bool c_t = true, c_b = true, c_l=true, c_r=true, ball=true, con;
 	
 	cout<<"\n  ======= Ruleta =====>>> :b"<<endl<<endl;
@@ -78,7 +79,11 @@ double MiniGames::Rulette(){
 	cout<<endl;
 	if(op=='2'){
 		do{
-			cout<<" Enter your number(0-19): ";cin>>number;
+			cout<<" Enter your number(0-19): ";
+			fflush(stdin);
+			getline(cin, number_s);
+			fflush(stdin);
+			number = atoi(number_s.c_str());
 		}while(number<0 || number>19);
 	}
 	else{
@@ -213,6 +218,7 @@ double MiniGames::Rulette(){
 
 double MiniGames::TicTacToe(){
 	int width = 5, op;
+	string op_s;
 	char mark = 254, side= '#', turn, x='X', o='O';
 	bool x1=0,x2=0,x3=0,x4=0,x5=0,x6=0,x7=0,x8=0,x9=0,
 	c1=0,c2=0,c3=0,c4=0,c5=0,c6=0,c7=0,c8=0,c9=0, validate=false;
@@ -230,7 +236,7 @@ double MiniGames::TicTacToe(){
 					std::cout <<" "<< side <<" ";	
 				}
 				else if (j%6==0 && j!=0)
-			std::cout << WHITE<<side<<RESET;
+					std::cout << WHITE<<side<<RESET;
 				
 				else if (i==j && i < 6 && j < 6 && x1){
 					std::cout <<" "<< RED<<mark<<RESET <<" ";
@@ -349,29 +355,31 @@ double MiniGames::TicTacToe(){
 			std::cout << "==================================================\n";
 			std::cout << "==================================================\n\n";
 			return 0.0;
-		}
-		
-		if (turn == x){
-			std::cout<<" you turn (";
-			if (!x1 && !c1) std::cout<<1<<",";
-			if (!x2 && !c2) std::cout<<2<<",";
-			if (!x3 && !c3) std::cout<<3<<",";
-			if (!x4 && !c4) std::cout<<4<<",";
-			if (!x5 && !c5) std::cout<<5<<",";
-			if (!x6 && !c6) std::cout<<6<<",";
-			if (!x7 && !c7) std::cout<<7<<",";
-			if (!x8 && !c8) std::cout<<8<<",";
-			if (!x9 && !c9) std::cout<<9;
-			std::cout<<") :";
-			std::cin>>op;
-		}
-		else{
-			srand(time(NULL));
-			op = 1 + rand()%9;
-		}
-		
+		}	
 		
 		do{
+			if (turn == x){
+				std::cout<<" you turn (";
+				if (!x1 && !c1) std::cout<<1<<",";
+				if (!x2 && !c2) std::cout<<2<<",";
+				if (!x3 && !c3) std::cout<<3<<",";
+				if (!x4 && !c4) std::cout<<4<<",";
+				if (!x5 && !c5) std::cout<<5<<",";
+				if (!x6 && !c6) std::cout<<6<<",";
+				if (!x7 && !c7) std::cout<<7<<",";
+				if (!x8 && !c8) std::cout<<8<<",";
+				if (!x9 && !c9) std::cout<<9;
+				std::cout<<") :";
+				fflush(stdin);
+				getline(cin, op_s);
+				fflush(stdin);
+				op = atoi(op_s.c_str());
+			}
+			else{
+				srand(time(NULL));
+				op = 1 + rand()%9;
+			}
+		
 			validate = false;
 			if (op == 1 && !x1 && !c1){
 				if (turn==x) x1=1;
@@ -412,19 +420,6 @@ double MiniGames::TicTacToe(){
 			else{
 				if (turn==x){
 					std::cout<<"\n Error, pls try again.\n\n";
-					std::cout<<"\a";
-					std::cout<<"turn \" "<<turn<<" \" (";
-					if (!x1 && !c1) std::cout<<1<<",";
-					if (!x2 && !c2) std::cout<<2<<",";
-					if (!x3 && !c3) std::cout<<3<<",";
-					if (!x4 && !c4) std::cout<<4<<",";
-					if (!x5 && !c5) std::cout<<5<<",";
-					if (!x6 && !c6) std::cout<<6<<",";
-					if (!x7 && !c7) std::cout<<7<<",";
-					if (!x8 && !c8) std::cout<<8<<",";
-					if (!x9 && !c9) std::cout<<9;
-					std::cout<<") :";
-					std::cin>>op;
 				}
 				else{
 					srand(time(NULL));
@@ -559,7 +554,7 @@ double MiniGames::hacker_mode(){
 	cout<<"\n\t ::::::::::::::: HACKER MODE ::::::::::::::: HACKER MODE ::::::::::::::: HACKER MODE :::::::::::::::\n\n";
 
 	ifstream datos; 
-	string info;
+	string info, amount_s;
 	
 	datos.open(directory_hacker, ios::in);  
 	//datos.open("hacker_text.txt", ios::in);
@@ -582,8 +577,12 @@ double MiniGames::hacker_mode(){
 	}
 
 	do{
-		cout<<"\n\n\t ENTER AMOUNT TO HACKING: ";cin>>amount;
-	}while(amount<0);
+		cout<<"\n\n\t ENTER AMOUNT TO HACKING(1-infinite)$: ";
+		fflush(stdin);
+		getline(cin, amount_s);
+		fflush(stdin);
+		amount = atoi(amount_s.c_str());
+	}while(amount<1);
 	
 	if (hacking==1){
 		cout <<"\n YOU HACKED THE MONEY !!! "<<amount<<" $ SUCCESSFUL !!!"<<endl;
