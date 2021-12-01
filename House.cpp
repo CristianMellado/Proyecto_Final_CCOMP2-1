@@ -29,7 +29,7 @@ string description_text[8] = {" This house permit food to the user for not dying
  " This allow change name of to every house and sell these.", 
  " This house allow translate money between houses.", 
  " This house allow hack and invert in any bussines.", 
- " This house is in process.",
+ " This house earn per week 350 $.",
  " This house serves for playing games and earn money."};
  
  
