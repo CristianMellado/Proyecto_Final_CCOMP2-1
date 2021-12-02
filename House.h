@@ -39,6 +39,6 @@ class House{
 		void pay_amount(double);
 		void receive(double);
 		void payments();
-		void load_house(string [], int);
-		string save_house();
+		virtual void load_house(string [], int);
+		virtual string save_house();
 };

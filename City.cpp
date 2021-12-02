@@ -18,9 +18,6 @@ City::City(string world="nada", string name="nada"){
 	money=0.0;
 	game = true;
 	
-	limit_food = 31;
-	n_food = limit_food;
-	
 	
 	this->world = world;
 	
@@ -82,9 +79,8 @@ City::~City(){
 
 void City::load_city(string arr[]){
 	world = arr[0];
-	n_food = atoi(arr[1].c_str());
 	
-	int index = 2;
+	int index = 1;
 	
 	for (int i=0;i<limit;i++){
 		positions[i][0] = atoi(arr[index].c_str());
@@ -96,7 +92,7 @@ void City::load_city(string arr[]){
 	}
 	
 	restaurant->load_house(arr, index);
-	index += size_house;
+	index += size_house + 1;
 	
 	painters->load_house(arr, index);
 	index += size_house;
@@ -126,7 +122,6 @@ string City::save_city(){
 	string all = "";
 	
 	all += world + ";";
-	all += to_string(n_food) + ";";
 	
 	for (int i=0; i<limit; i++){
 		all += to_string(positions[i][0]) + ";";
@@ -476,7 +471,7 @@ void City::city_houses(int selected){
 }
 
 void City::collect_money(){
-	if(n_food > 0){
+	if(restaurant->get_state_food()){
 		for (int i=0;i<limit;i++){
 			if (positions[i][0]==1){
 				switch(positions[i][2]){
@@ -507,7 +502,7 @@ void City::collect_money(){
 				}
 			}
 		}
-		n_food--;
+		restaurant->n_food--;
 	}
 }
 
@@ -679,7 +674,7 @@ void City::run_city() {
 		//std::cout<<"\033[H\033[2J\033[3J";
 		
 		refresh_account();
-		action = calendar.draw_calendar(money, n_food);
+		action = calendar.draw_calendar(money, restaurant->get_food());
 
 		draw_game();
 		

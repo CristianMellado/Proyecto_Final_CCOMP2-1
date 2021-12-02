@@ -58,6 +58,8 @@ void Casino::menu_house(City *city){
 
 // Transactions
 Transactions::Transactions(int house_type=0, int pos=5, string name="nothing"):House(house_type, pos, name){
+	total = 0.0;
+	from_money = 0.0;
 }
 
 Transactions::~Transactions(){
@@ -65,7 +67,6 @@ Transactions::~Transactions(){
 
 void Transactions::menu_house(City *city){
 	char op, op2;
-	double total, from_money;
 	bool exist;
 	do{
 		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Trasfering money\n 3) Exit\n\n option: ";
@@ -265,6 +266,8 @@ void Transactions::menu_house(City *city){
 
 //Properties
 Properties::Properties(int house_type=0, int pos=5, string name="nothing"):House(house_type, pos, name){
+	total = 0.0;
+	rename = "";
 }
 
 Properties::~Properties(){
@@ -272,8 +275,6 @@ Properties::~Properties(){
 
 void Properties::menu_house(City *city){
 	char op, op2;
-	double total;
-	string rename;
 	bool exist;
 	do{
 		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Change name\n 3) Sell house\n 4) Exit\n\n option: ";
@@ -364,13 +365,13 @@ void Properties::menu_house(City *city){
 					break;
 			case '3':
 					cout<<"\n\n =========> Selling house:\n";
-					for (int i=0;i<city->limit;i++){
+					for (int i=1;i<city->limit;i++){
 						if (city->positions[i][0]==1){
 							cout<<" "<<i+1<<") ";
 							switch(city->positions[i][2]){
-								case 1: 
-										cout<<city->restaurant->name<<": "<<city->restaurant->price<<"$\n";
-										break;
+								// case 1: 
+										// cout<<city->restaurant->name<<": "<<city->restaurant->price<<"$\n";
+										// break;
 								case 2: 
 										cout<<city->painters->name<<": "<<city->painters->price<<"$\n";							
 										break;
@@ -406,13 +407,13 @@ void Properties::menu_house(City *city){
 								exist = true;
 							}
 						}						
-					}while(exist || int(op)-48<1 || int(op)-48>8);
+					}while(exist || int(op)-48<2 || int(op)-48>8);
 					
-					cout<<" Remind: if you sell you house, you will lose\n\t all money of this house(";
+					cout<<"\n\n Remind: if you sell you house, you will lose\n\t all money of this house(";
 					switch(city->positions[int(op)-49][2]){
-						case 1: 
-								cout<<city->restaurant->get_money();
-								break;
+						// case 1: 
+								// cout<<city->restaurant->get_money();
+								// break;
 						case 2: 
 								cout<<city->painters->get_money();						
 								break;
@@ -440,9 +441,9 @@ void Properties::menu_house(City *city){
 					
 					cout<<" You want sell the house(";
 					switch(city->positions[int(op)-49][2]){
-						case 1: 
-								cout<<city->restaurant->name;							
-								break;
+						// case 1: 
+								// cout<<city->restaurant->name;							
+								// break;
 						case 2: 
 								cout<<city->painters->name;						
 								break;
@@ -469,9 +470,9 @@ void Properties::menu_house(City *city){
 
 					if(op2=='y'){
 						switch(city->positions[int(op)-49][2]){
-							case 1: 
-									total = city->restaurant->price;
-									break;
+							// case 1: 
+									// total = city->restaurant->price;
+									// break;
 							case 2: 
 									total = city->painters->price;								
 									break;
@@ -509,6 +510,7 @@ void Properties::menu_house(City *city){
 
 // Painters
 Painters::Painters(int house_type=0, int pos=5, string name="nothing"):House(house_type, pos, name){
+	type_color = 'n';
 }
 
 Painters::~Painters(){
@@ -560,16 +562,16 @@ void Painters::menu_house(City *city){
 					
 					do{
 						exist=false;
-						cout<<" Select house: ";cin>>op;
+						cout<<" Select house: ";cin>>type_color;
 						for (int i=0;i<city->limit;i++){
-							if (city->positions[i][0]==0 && int(op)-49==i){
+							if (city->positions[i][0]==0 && int(type_color)-49==i){
 								exist = true;
 							}
 						}						
-					}while(exist || int(op)-48<1 || int(op)-48>8);
+					}while(exist || int(type_color)-48<1 || int(type_color)-48>8);
 					
 					
-					switch(city->positions[int(op)-49][2]){
+					switch(city->positions[int(type_color)-49][2]){
 						case 1: 
 								city->restaurant->change_color();
 								break;
@@ -606,6 +608,10 @@ void Painters::menu_house(City *city){
 
 // Constructors
 Constructors::Constructors(int house_type=0, int pos=5, string name="nothing"):House(house_type, pos, name){
+	house_selected = 'n';
+	
+	getcwd(dir_constructors, 256);
+	strcat(dir_constructors, "\\constructors_vista.txt"); 
 }
 
 Constructors::~Constructors(){
@@ -615,7 +621,7 @@ void Constructors::menu_house(City *city){
 	char op;
 	bool exist;
 	do{
-		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Level Up House\n 3) Exit\n\n option: ";
+		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Level Up House\n 3) Vision of city * . *\n 4) Exit\n\n option: ";
 		cin>>op;
 		switch(op){
 			case '1': 	house_info();
@@ -657,16 +663,16 @@ void Constructors::menu_house(City *city){
 					
 					do{
 						exist=false;
-						cout<<" Select house: ";cin>>op;
+						cout<<" Select house: ";cin>>house_selected;
 						for (int i=0;i<city->limit;i++){
-							if (city->positions[i][0]==0 && int(op)-49==i){
+							if (city->positions[i][0]==0 && int(house_selected)-49==i){
 								exist = true;
 							}
 						}						
-					}while(exist || int(op)-48<1 || int(op)-48>8);
+					}while(exist || int(house_selected)-48<1 || int(house_selected)-48>8);
 					
 					
-					switch(city->positions[int(op)-49][2]){
+					switch(city->positions[int(house_selected)-49][2]){
 						case 1: 
 								city->restaurant->add_house();
 								break;
@@ -696,8 +702,29 @@ void Constructors::menu_house(City *city){
 					getch();
 					op = '2';
 					break;
+			case '3':
+						system("cls");
+						ifstream datos;
+						datos.open(dir_constructors, ios::in);  
+						
+						if(datos.fail()){
+							cout<<" Error. file didnt find of constructors_vista text."<<endl;
+							system("pause");
+							exit(1);
+						}
+						else{
+							string info;
+							while(!datos.eof()){			
+								getline(datos, info); 
+								cout<<info<<endl;
+							}
+						}
+						datos.close();
+						cout<<"\n Presione cualquier tecla para volver a la realidad ...";
+						getch();
+						break;			
 		}
-	}while(op!='3');
+	}while(op!='4');
 }
 
 
@@ -746,6 +773,10 @@ void Stonks::menu_house(City *city){
 
 //Restaurant
 Restaurant::Restaurant(int house_type=0, int pos=5, string name="nothing"):House(house_type, pos, name){
+	n_hearts = 0;
+	limit_food = 31;
+	n_food = limit_food;
+	total = 0.0;
 }
 
 Restaurant::~Restaurant(){
@@ -753,8 +784,6 @@ Restaurant::~Restaurant(){
 
 void Restaurant::menu_house(City *city){
 	char op, op2; 
-	int n;
-	double total;
 	do{
 		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Buy food\n 3) Exit\n\n option: ";
 		cin>>op;
@@ -774,23 +803,23 @@ void Restaurant::menu_house(City *city){
 						cout<<endl;
 						
 						do{
-							cout<<" Number of amount(1: 1-30)(2: 1-15)(3: 1-10): ";cin>>n;
-						}while(n < 1 || n > 30);
+							cout<<" Number of amount(1: 1-30)(2: 1-15)(3: 1-10): ";cin>>n_hearts;
+						}while(n_hearts < 1 || n_hearts > 30);
 						
 						switch(op2){
-							case '1': total = n * 1.0;break;
-							case '2': total = n * 8.0;break;
-							case '3': total = n * 15.0;break;
+							case '1': total = n_hearts * 1.0;break;
+							case '2': total = n_hearts * 8.0;break;
+							case '3': total = n_hearts * 15.0;break;
 						}
 						
 						if (city->money > total ){
 							city->pay_money(total);
 							
-							if(city->limit_food - city->n_food - ((int(op2)-48)*n) - 1 <= 0){
-								city->n_food = city->limit_food;
+							if(limit_food - n_food - ((int(op2)-48)*n_hearts) - 1 <= 0){
+								n_food = limit_food;
 							}
 							else{
-								city->n_food += (int(op2)-48)*n + 1;
+								n_food += (int(op2)-48)*n_hearts + 1;
 							}
 							cout<<"\n\n  :: Successful Buy ::\n\n";
 						}
@@ -803,16 +832,133 @@ void Restaurant::menu_house(City *city){
 	}while(op!='3');
 }
 
+bool Restaurant::get_state_food(){
+	return n_food > 0;
+}
+
+void Restaurant::load_house(string arr[], int index){
+	this->name = arr[index];
+	
+	n_food = atoi(arr[index + 1].c_str());
+	
+	for (int i=0;i<6;i++){
+		model[i] = atoi(arr[index + 2 + i].c_str());
+	}
+	
+	n = atoi(arr[index+8].c_str());
+	
+	house[0][0] = atoi(arr[index + 9].c_str());
+	house[0][1] = atoi(arr[index + 10].c_str());
+	
+	for(int i=1; i<n;i++){
+		house[i][0] = house[0][0];
+		house[i][1] = house[0][1] - i;
+	}
+	
+	color = atoi(arr[index+11].c_str());
+	
+	money = atof(arr[index+12].c_str());
+	price = atof(arr[index+13].c_str());
+	pay = atof(arr[index+14].c_str());
+	
+	for (int i=0;i<4;i++){
+		money_month[i] = atof(arr[index+15+i].c_str());
+	}
+}
+
+string Restaurant::save_house(){
+	string all = "";
+	
+	all += name + ";";
+	
+	all += to_string(n_food) + ";";
+	
+	for (int i=0;i<6;i++){
+		all += to_string(model[i]) + ";";
+	}
+	
+	all += to_string(n) + ";";
+	
+	all+= to_string(house[0][0]) + ";" + to_string(house[0][1]) + ";";
+
+	all += to_string(color) + ";";
+	
+	all += to_string(money) + ";";
+	all += to_string(price) + ";";
+	all += to_string(pay) + ";";
+	
+	for (int i=0;i<4;i++){
+		all += to_string(money_month[i]) + ";";
+	}
+	
+	return all;
+}
+
+int Restaurant::get_food(){
+	return this->n_food;
+}
+
 
 //Hotel
 Hotel::Hotel(int house_type=0, int pos=5, string name="nothing"):House(house_type, pos, name){
+	getcwd(dir_hotel, 256);
+	strcat(dir_hotel, "\\hotel_vista.txt"); 
 }
 
 Hotel::~Hotel(){
 }
 
 void Hotel::menu_house(){
-	house_info();
+	srand(time(NULL));
+	char op;
+	int vista;
+	ifstream datos;
+	string info;
+	do{
+		cout<<"\n\n =========> "<<name<<"\n\n 1) Info house\n 2) Watch Beach\n 3) Exit\n\n option: ";
+		cin>>op;
+		switch(op){
+			case '1': 	house_info();
+						break;
+			case '2': 
+						system("cls");
+						datos.open(dir_hotel, ios::in);  
+					
+						if(datos.fail()){
+							cout<<" Error. file didnt find of hotel_vista text."<<endl;
+							system("pause");
+							exit(1);
+						}
+						else{
+							vista = rand()%3;
+							int i=1;
+							while(!datos.eof()){			
+								getline(datos, info); 
+								switch(vista){
+									case 0:
+										if(i < 40)
+											cout<<info<<endl;
+										break;
+									case 1:
+										if(i == 40) cout<<"\n\n\n\n\n\n";
+										if(i > 39 && i < 58)
+											cout<<info<<endl;
+										if(i == 57) cout<<"\n\n\n\n\n\n";
+										break;
+									case 2:
+										if(i > 57)
+											cout<<info<<endl;
+										break;
+								}
+								i++;
+							}
+						}
+						datos.close();
+						cout<<"\n Presione cualquier tecla para voltear o girar la cabeza ...";
+						getch();
+						break;
+		}						
+	}while(op!='3');
 }
 
 void Hotel::collect(){
