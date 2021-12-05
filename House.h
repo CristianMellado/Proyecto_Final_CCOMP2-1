@@ -19,7 +19,7 @@ using namespace std;
 				
 class House{
 	public:
-		int limit, n, color;
+		int limit, n, color, n_variables;
 		int **house;
 		int *model;
 		string name;
@@ -39,6 +39,6 @@ class House{
 		void pay_amount(double);
 		void receive(double);
 		void payments();
-		virtual void load_house(string [], int);
+		virtual void load_house(string [], int &);
 		virtual string save_house();
 };

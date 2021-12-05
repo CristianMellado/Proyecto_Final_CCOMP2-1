@@ -98,7 +98,7 @@ class Restaurant : public House{
 		
 		void menu_house(City *);
 		bool get_state_food();
-		void load_house(string [], int);
+		void load_house(string [], int &);
 		string save_house();
 		int get_food();
 };

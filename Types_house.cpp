@@ -777,6 +777,7 @@ Restaurant::Restaurant(int house_type=0, int pos=5, string name="nothing"):House
 	limit_food = 31;
 	n_food = limit_food;
 	total = 0.0;
+	n_variables = 19;
 }
 
 Restaurant::~Restaurant(){
@@ -836,7 +837,7 @@ bool Restaurant::get_state_food(){
 	return n_food > 0;
 }
 
-void Restaurant::load_house(string arr[], int index){
+void Restaurant::load_house(string arr[], int &index){
 	this->name = arr[index];
 	
 	n_food = atoi(arr[index + 1].c_str());
@@ -864,6 +865,8 @@ void Restaurant::load_house(string arr[], int index){
 	for (int i=0;i<4;i++){
 		money_month[i] = atof(arr[index+15+i].c_str());
 	}
+	
+	index += n_variables;
 }
 
 string Restaurant::save_house(){

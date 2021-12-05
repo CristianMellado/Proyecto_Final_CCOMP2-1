@@ -17,7 +17,7 @@ Alumnos:
 class City{
 	public:
 		string world;
-		int limit, **positions, size_house;
+		int limit, **positions;
 		double money;
 		
 		Casino *casino;

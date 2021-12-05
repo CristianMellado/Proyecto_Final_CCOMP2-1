@@ -36,6 +36,7 @@ string description_text[8] = {" This house permit food to the user for not dying
 House::House(int h=0, int x=5, string name="nothing"){
 	limit = 30;
 	n = 2;
+	n_variables = 18;  // number of variables of house
 	
 	model = new int [6];   // separamos memoria pra un arreglo
 	for (int i=0;i<6;i++){
@@ -79,7 +80,7 @@ House::~House(){   // liberamos memoria reservada.
 	delete[] money_month;
 }
 
-void House::load_house(string arr[], int index){
+void House::load_house(string arr[], int &index){
 	this->name = arr[index];
 	
 	for (int i=0;i<6;i++){
@@ -105,6 +106,8 @@ void House::load_house(string arr[], int index){
 	for (int i=0;i<4;i++){
 		money_month[i] = atof(arr[index+14+i].c_str());
 	}
+	
+	index += n_variables;
 }
 
 string House::save_house(){

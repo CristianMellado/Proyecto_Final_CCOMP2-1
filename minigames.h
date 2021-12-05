@@ -25,6 +25,7 @@ class MiniGames{
 		
 		MiniGames();
 		~MiniGames();
+		
 		double menu_minigames();
 		double TicTacToe();
 		double Snake();

@@ -14,7 +14,7 @@ Alumnos:
 
 City::City(string world="nada", string name="nada"){
 	limit = 8;
-	size_house=18; // number of variables of house
+	// size_house=18; // number of variables of house
 	money=0.0;
 	game = true;
 	
@@ -92,28 +92,20 @@ void City::load_city(string arr[]){
 	}
 	
 	restaurant->load_house(arr, index);
-	index += size_house + 1;
 	
 	painters->load_house(arr, index);
-	index += size_house;
 	
 	constructors->load_house(arr, index);
-	index += size_house;
 	
 	properties->load_house(arr, index);
-	index += size_house;
 	
 	transactions->load_house(arr, index);
-	index += size_house;
 	
 	stonks->load_house(arr, index);
-	index += size_house;
 	
 	hotel->load_house(arr, index);
-	index += size_house;
 	
 	casino->load_house(arr, index);
-	index += size_house;
 	
 	calendar.load_calendar(arr, index);
 }
