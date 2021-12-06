@@ -1,4 +1,4 @@
-/****************************************************************
+/***************************************************************
 Proyecto final
 
 Departamento de Ciencia de la Computación
@@ -8,7 +8,7 @@ Alumnos:
  - Cristian Mellado Baca
  - Marcelo Torres Acuña
  - Alexander Carpio Mamani
-*****************************************************************/
+****************************************************************/
 
 #pragma once
 #define _GLIBCXX_USE_CXX11_ABI 0
